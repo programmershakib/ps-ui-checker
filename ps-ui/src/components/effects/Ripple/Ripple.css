@@ -1,0 +1,47 @@
+.ps-ripple-container {
+    position: absolute;
+    overflow: hidden;
+    pointer-events: none;
+    border-radius: inherit;
+    inset: 0;
+    contain: layout style paint;
+}
+
+.ps-ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    background-color: currentColor;
+    will-change: transform, opacity;
+    animation-name: ps-ripple-spread;
+    animation-fill-mode: forwards;
+    pointer-events: none;
+    backface-visibility: hidden;
+}
+
+@keyframes ps-ripple-spread {
+    to {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ps-ripple {
+        animation-name: ps-ripple-fade;
+        transform: scale(1);
+    }
+
+    @keyframes ps-ripple-fade {
+        to {
+            opacity: 0;
+        }
+    }
+}
+
+@media (forced-colors: active) {
+    .ps-ripple {
+        background-color: Highlight;
+        forced-color-adjust: none;
+    }
+}

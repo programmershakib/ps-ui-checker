@@ -1,0 +1,287 @@
+@import "./primitive.css";
+
+:root {
+    --ps-white: var(--ps-primitive-white);
+    --ps-black: var(--ps-primitive-black);
+
+    /* ---- raw gray aliases ---- */
+    --ps-gray-50: var(--ps-primitive-gray-50);
+    --ps-gray-100: var(--ps-primitive-gray-100);
+    --ps-gray-200: var(--ps-primitive-gray-200);
+    --ps-gray-300: var(--ps-primitive-gray-300);
+    --ps-gray-400: var(--ps-primitive-gray-400);
+    --ps-gray-500: var(--ps-primitive-gray-500);
+    --ps-gray-600: var(--ps-primitive-gray-600);
+    --ps-gray-700: var(--ps-primitive-gray-700);
+    --ps-gray-800: var(--ps-primitive-gray-800);
+    --ps-gray-900: var(--ps-primitive-gray-900);
+
+    /* ---- text/surface ---- */
+    --ps-background: var(--ps-white);
+    --ps-foreground: var(--ps-gray-900);
+    --ps-muted: var(--ps-gray-500);
+    --ps-subtle: var(--ps-gray-400);
+    --ps-disabled: var(--ps-gray-300);
+
+    /* ---- divider ---- */
+    --ps-divider: var(--ps-gray-200);
+
+    /* ---- content (surface elevation levels — Card, nested panels) ---- */
+    --ps-content1: var(--ps-white);
+    --ps-content2: var(--ps-gray-50);
+    --ps-content3: var(--ps-gray-100);
+    --ps-content4: var(--ps-gray-200);
+
+    /* ---- shadow ---- */
+    --ps-shadow-none: var(--ps-primitive-shadow-none);
+    --ps-shadow-xs: var(--ps-primitive-shadow-xs);
+    --ps-shadow-sm: var(--ps-primitive-shadow-sm);
+    --ps-shadow-md: var(--ps-primitive-shadow-md);
+    --ps-shadow-lg: var(--ps-primitive-shadow-lg);
+    --ps-shadow-xl: var(--ps-primitive-shadow-xl);
+    --ps-shadow-2xl: var(--ps-primitive-shadow-2xl);
+
+    /* ---- blur — backdrop-filter amount ---- */
+    --ps-blur-none: var(--ps-primitive-blur-none);
+    --ps-blur-sm: var(--ps-primitive-blur-sm);
+    --ps-blur-md: var(--ps-primitive-blur-md);
+    --ps-blur-lg: var(--ps-primitive-blur-lg);
+    --ps-blur-xl: var(--ps-primitive-blur-xl);
+
+    /* ---- glass surface ---- */
+    --ps-glass-bg: color-mix(in srgb, var(--ps-white) 70%, transparent);
+
+    /* ---- overlay/scrim ---- */
+    --ps-overlay: color-mix(in srgb, var(--ps-black) 50%, transparent);
+
+    /* ---- z-index ---- */
+    --ps-z-sticky: 100;
+    --ps-z-dropdown: 1000;
+    --ps-z-overlay: 1300;
+    --ps-z-modal: 1400;
+    --ps-z-popover: 1500;
+    --ps-z-tooltip: 1600;
+    --ps-z-toast: 1700;
+
+    /* ---- duration ---- */
+    --ps-duration-instant: var(--ps-primitive-duration-instant);
+    --ps-duration-fast: var(--ps-primitive-duration-fast);
+    --ps-duration-base: var(--ps-primitive-duration-base);
+    --ps-duration-slow: var(--ps-primitive-duration-slow);
+
+    /* ---- easing ---- */
+    --ps-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ps-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* ---- focus ring ---- */
+    --ps-focus-ring-width: var(--ps-primitive-focus-ring-width);
+    --ps-focus-ring-offset: var(--ps-primitive-focus-ring-offset);
+    --ps-focus-ring-color: var(--ps-primary);
+
+    /* ---- disabled ---- */
+    --ps-disabled-opacity: var(--ps-primitive-disabled-opacity);
+
+    /* ---- default ---- */
+    --ps-default: var(--ps-gray-300);
+    --ps-default-hover: var(--ps-gray-400);
+    --ps-default-active: var(--ps-gray-500);
+    --ps-default-foreground: var(--ps-gray-900);
+    --ps-default-text: var(--ps-gray-900);
+    --ps-default-border: var(--ps-gray-300);
+    --ps-default-subtle: var(--ps-gray-100);
+    --ps-default-subtle-hover: var(--ps-gray-200);
+    --ps-default-shadow: var(--ps-gray-300);
+
+    /* ---- primary ---- */
+    --ps-primary: var(--ps-primitive-blue-500);
+    --ps-primary-hover: var(--ps-primitive-blue-600);
+    --ps-primary-active: var(--ps-primitive-blue-700);
+    --ps-primary-foreground: var(--ps-white);
+    --ps-primary-text: var(--ps-primitive-blue-500);
+    --ps-primary-border: var(--ps-primitive-blue-500);
+    --ps-primary-subtle: var(--ps-primitive-blue-100);
+    --ps-primary-subtle-hover: var(--ps-primitive-blue-200);
+    --ps-primary-shadow: var(--ps-primitive-blue-300);
+
+    /* ---- secondary ---- */
+    --ps-secondary: var(--ps-primitive-purple-500);
+    --ps-secondary-hover: var(--ps-primitive-purple-600);
+    --ps-secondary-active: var(--ps-primitive-purple-700);
+    --ps-secondary-foreground: var(--ps-white);
+    --ps-secondary-text: var(--ps-primitive-purple-500);
+    --ps-secondary-border: var(--ps-primitive-purple-500);
+    --ps-secondary-subtle: var(--ps-primitive-purple-100);
+    --ps-secondary-subtle-hover: var(--ps-primitive-purple-200);
+    --ps-secondary-shadow: var(--ps-primitive-purple-300);
+
+    /* ---- success ---- */
+    --ps-success: var(--ps-primitive-green-500);
+    --ps-success-hover: var(--ps-primitive-green-600);
+    --ps-success-active: var(--ps-primitive-green-700);
+    --ps-success-foreground: var(--ps-black);
+    --ps-success-text: var(--ps-primitive-green-500);
+    --ps-success-border: var(--ps-primitive-green-500);
+    --ps-success-subtle: var(--ps-primitive-green-100);
+    --ps-success-subtle-hover: var(--ps-primitive-green-200);
+    --ps-success-shadow: var(--ps-primitive-green-300);
+
+    /* ---- warning ---- */
+    --ps-warning: var(--ps-primitive-amber-500);
+    --ps-warning-hover: var(--ps-primitive-amber-600);
+    --ps-warning-active: var(--ps-primitive-amber-700);
+    --ps-warning-foreground: var(--ps-black);
+    --ps-warning-text: var(--ps-primitive-amber-500);
+    --ps-warning-border: var(--ps-primitive-amber-500);
+    --ps-warning-subtle: var(--ps-primitive-amber-100);
+    --ps-warning-subtle-hover: var(--ps-primitive-amber-200);
+    --ps-warning-shadow: var(--ps-primitive-amber-300);
+
+    /* ---- error ---- */
+    --ps-error: var(--ps-primitive-red-500);
+    --ps-error-hover: var(--ps-primitive-red-600);
+    --ps-error-active: var(--ps-primitive-red-700);
+    --ps-error-foreground: var(--ps-white);
+    --ps-error-text: var(--ps-primitive-red-500);
+    --ps-error-border: var(--ps-primitive-red-500);
+    --ps-error-subtle: var(--ps-primitive-red-100);
+    --ps-error-subtle-hover: var(--ps-primitive-red-200);
+    --ps-error-shadow: var(--ps-primitive-red-300);
+
+    /* ---- typography ---- */
+    --ps-font-xs: var(--ps-primitive-font-size-xs);
+    --ps-font-sm: var(--ps-primitive-font-size-sm);
+    --ps-font-md: var(--ps-primitive-font-size-md);
+    --ps-font-lg: var(--ps-primitive-font-size-lg);
+    --ps-font-xl: var(--ps-primitive-font-size-xl);
+    --ps-font-2xl: var(--ps-primitive-font-size-2xl);
+    --ps-font-3xl: var(--ps-primitive-font-size-3xl);
+    --ps-font-4xl: var(--ps-primitive-font-size-4xl);
+    --ps-font-5xl: var(--ps-primitive-font-size-5xl);
+    --ps-font-6xl: var(--ps-primitive-font-size-6xl);
+
+    --ps-description-font: var(--ps-font-sm);
+
+    --ps-font-weight-thin: var(--ps-primitive-font-weight-thin);
+    --ps-font-weight-extralight: var(--ps-primitive-font-weight-extralight);
+    --ps-font-weight-light: var(--ps-primitive-font-weight-light);
+    --ps-font-weight-normal: var(--ps-primitive-font-weight-normal);
+    --ps-font-weight-medium: var(--ps-primitive-font-weight-medium);
+    --ps-font-weight-semibold: var(--ps-primitive-font-weight-semibold);
+    --ps-font-weight-bold: var(--ps-primitive-font-weight-bold);
+    --ps-font-weight-extrabold: var(--ps-primitive-font-weight-extrabold);
+    --ps-font-weight-black: var(--ps-primitive-font-weight-black);
+
+    --ps-font-family: var(--ps-primitive-font-family);
+    --ps-font-family-mono: var(--ps-primitive-font-family-mono);
+
+    /* ---- radius (raw 10-step scale) ---- */
+    --ps-radius-none: var(--ps-primitive-radius-none);
+    --ps-radius-xs: var(--ps-primitive-radius-xs);
+    --ps-radius-sm: var(--ps-primitive-radius-sm);
+    --ps-radius-md: var(--ps-primitive-radius-md);
+    --ps-radius-lg: var(--ps-primitive-radius-lg);
+    --ps-radius-xl: var(--ps-primitive-radius-xl);
+    --ps-radius-2xl: var(--ps-primitive-radius-2xl);
+    --ps-radius-3xl: var(--ps-primitive-radius-3xl);
+    --ps-radius-4xl: var(--ps-primitive-radius-4xl);
+    --ps-radius-full: var(--ps-primitive-radius-full);
+
+    /* ---- component radius ---- */
+    --ps-component-radius-none: var(--ps-primitive-radius-none);
+    --ps-component-radius-sm: var(--ps-primitive-radius-lg);
+    --ps-component-radius-md: var(--ps-primitive-radius-xl);
+    --ps-component-radius-lg: var(--ps-primitive-radius-2xl);
+    --ps-component-radius-full: var(--ps-primitive-radius-full);
+
+    /* ---- spacing ---- */
+    --ps-space-none: var(--ps-primitive-space-none);
+    --ps-space-xs: var(--ps-primitive-space-xs);
+    --ps-space-sm: var(--ps-primitive-space-sm);
+    --ps-space-md: var(--ps-primitive-space-md);
+    --ps-space-lg: var(--ps-primitive-space-lg);
+    --ps-space-xl: var(--ps-primitive-space-xl);
+    --ps-space-2xl: var(--ps-primitive-space-2xl);
+    --ps-space-3xl: var(--ps-primitive-space-3xl);
+    --ps-space-4xl: var(--ps-primitive-space-4xl);
+    --ps-space-5xl: var(--ps-primitive-space-5xl);
+    --ps-space-6xl: var(--ps-primitive-space-6xl);
+}
+
+/* ---- dark mode overrides ---- */
+[data-theme="dark"] {
+    --ps-background: var(--ps-black);
+    --ps-foreground: var(--ps-gray-50);
+    --ps-muted: var(--ps-gray-400);
+    --ps-subtle: var(--ps-gray-500);
+    --ps-disabled: var(--ps-gray-600);
+
+    --ps-divider: var(--ps-gray-800);
+    --ps-content1: var(--ps-gray-900);
+    --ps-content2: var(--ps-gray-800);
+    --ps-content3: var(--ps-gray-700);
+    --ps-content4: var(--ps-gray-600);
+
+    --ps-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.24);
+    --ps-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.32);
+    --ps-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --ps-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.46);
+    --ps-shadow-xl: 0 8px 28px rgba(0, 0, 0, 0.5);
+    --ps-shadow-2xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+
+    --ps-glass-bg: color-mix(in srgb, var(--ps-black) 60%, transparent);
+
+    --ps-default: var(--ps-gray-700);
+    --ps-default-hover: var(--ps-gray-600);
+    --ps-default-active: var(--ps-gray-500);
+    --ps-default-foreground: var(--ps-gray-50);
+    --ps-default-text: var(--ps-gray-50);
+    --ps-default-border: var(--ps-gray-600);
+    --ps-default-subtle: var(--ps-gray-800);
+    --ps-default-subtle-hover: var(--ps-gray-700);
+    --ps-default-shadow: var(--ps-gray-800);
+
+    --ps-primary: var(--ps-primitive-blue-400);
+    --ps-primary-hover: var(--ps-primitive-blue-300);
+    --ps-primary-active: var(--ps-primitive-blue-200);
+    --ps-primary-text: var(--ps-primitive-blue-400);
+    --ps-primary-border: var(--ps-primitive-blue-400);
+    --ps-primary-subtle: var(--ps-primitive-blue-900);
+    --ps-primary-subtle-hover: var(--ps-primitive-blue-800);
+    --ps-primary-shadow: var(--ps-primitive-blue-800);
+
+    --ps-secondary: var(--ps-primitive-purple-400);
+    --ps-secondary-hover: var(--ps-primitive-purple-300);
+    --ps-secondary-active: var(--ps-primitive-purple-200);
+    --ps-secondary-text: var(--ps-primitive-purple-400);
+    --ps-secondary-border: var(--ps-primitive-purple-400);
+    --ps-secondary-subtle: var(--ps-primitive-purple-900);
+    --ps-secondary-subtle-hover: var(--ps-primitive-purple-800);
+    --ps-secondary-shadow: var(--ps-primitive-purple-800);
+
+    --ps-success: var(--ps-primitive-green-400);
+    --ps-success-hover: var(--ps-primitive-green-300);
+    --ps-success-active: var(--ps-primitive-green-200);
+    --ps-success-text: var(--ps-primitive-green-400);
+    --ps-success-border: var(--ps-primitive-green-400);
+    --ps-success-subtle: var(--ps-primitive-green-900);
+    --ps-success-subtle-hover: var(--ps-primitive-green-800);
+    --ps-success-shadow: var(--ps-primitive-green-800);
+
+    --ps-warning: var(--ps-primitive-amber-400);
+    --ps-warning-hover: var(--ps-primitive-amber-300);
+    --ps-warning-active: var(--ps-primitive-amber-200);
+    --ps-warning-text: var(--ps-primitive-amber-400);
+    --ps-warning-border: var(--ps-primitive-amber-400);
+    --ps-warning-subtle: var(--ps-primitive-amber-900);
+    --ps-warning-subtle-hover: var(--ps-primitive-amber-800);
+    --ps-warning-shadow: var(--ps-primitive-amber-800);
+
+    --ps-error: var(--ps-primitive-red-400);
+    --ps-error-hover: var(--ps-primitive-red-300);
+    --ps-error-active: var(--ps-primitive-red-200);
+    --ps-error-text: var(--ps-primitive-red-400);
+    --ps-error-border: var(--ps-primitive-red-400);
+    --ps-error-subtle: var(--ps-primitive-red-900);
+    --ps-error-subtle-hover: var(--ps-primitive-red-800);
+    --ps-error-shadow: var(--ps-primitive-red-800);
+}

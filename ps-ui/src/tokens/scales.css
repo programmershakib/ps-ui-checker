@@ -1,0 +1,24 @@
+@import "./primitive.css";
+
+:root {
+    /* ---- control family ---- */
+    --ps-control-sm-height: var(--ps-primitive-dimension-32);
+    --ps-control-sm-padding-x: var(--ps-primitive-space-md);
+    --ps-control-sm-gap: var(--ps-primitive-space-sm);
+    --ps-control-sm-font: var(--ps-primitive-font-size-sm);
+
+    --ps-control-md-height: var(--ps-primitive-dimension-40);
+    --ps-control-md-padding-x: var(--ps-primitive-space-lg);
+    --ps-control-md-gap: var(--ps-primitive-space-sm);
+    --ps-control-md-font: var(--ps-primitive-font-size-sm);
+
+    --ps-control-lg-height: var(--ps-primitive-dimension-48);
+    --ps-control-lg-padding-x: var(--ps-primitive-space-xl);
+    --ps-control-lg-gap: var(--ps-primitive-space-sm);
+    --ps-control-lg-font: var(--ps-primitive-font-size-md);
+
+    /* ---- compact family ---- */
+    --ps-compact-sm: var(--ps-primitive-dimension-24);
+    --ps-compact-md: var(--ps-primitive-dimension-28);
+    --ps-compact-lg: var(--ps-primitive-dimension-32);
+}

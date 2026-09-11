@@ -1,0 +1,164 @@
+:root {
+    --ps-primitive-white: #ffffff;
+    --ps-primitive-black: #000000;
+
+    /* ---- gray ramp -- default ---- */
+    --ps-primitive-gray-50: #fafafa;
+    --ps-primitive-gray-100: #f4f4f5;
+    --ps-primitive-gray-200: #e4e4e7;
+    --ps-primitive-gray-300: #d4d4d8;
+    --ps-primitive-gray-400: #a1a1aa;
+    --ps-primitive-gray-500: #71717a;
+    --ps-primitive-gray-600: #52525b;
+    --ps-primitive-gray-700: #3f3f46;
+    --ps-primitive-gray-800: #27272a;
+    --ps-primitive-gray-900: #18181b;
+
+    /* ---- blue ramp -- primary ---- */
+    --ps-primitive-blue-50: #e6f1fe;
+    --ps-primitive-blue-100: #cce3fd;
+    --ps-primitive-blue-200: #99c7fb;
+    --ps-primitive-blue-300: #66aaf9;
+    --ps-primitive-blue-400: #338ef7;
+    --ps-primitive-blue-500: #006fee;
+    --ps-primitive-blue-600: #005bc4;
+    --ps-primitive-blue-700: #004493;
+    --ps-primitive-blue-800: #002e62;
+    --ps-primitive-blue-900: #001731;
+
+    /* ---- purple ramp -- secondary ---- */
+    --ps-primitive-purple-50: #f2eafa;
+    --ps-primitive-purple-100: #e4d4f4;
+    --ps-primitive-purple-200: #cba9e9;
+    --ps-primitive-purple-300: #b17dde;
+    --ps-primitive-purple-400: #9752d3;
+    --ps-primitive-purple-500: #7828c8;
+    --ps-primitive-purple-600: #6020a0;
+    --ps-primitive-purple-700: #481878;
+    --ps-primitive-purple-800: #301050;
+    --ps-primitive-purple-900: #180828;
+
+    /* ---- green ramp -- success ---- */
+    --ps-primitive-green-50: #e8faf0;
+    --ps-primitive-green-100: #d1f4e0;
+    --ps-primitive-green-200: #a2e9c1;
+    --ps-primitive-green-300: #74dfa2;
+    --ps-primitive-green-400: #45d483;
+    --ps-primitive-green-500: #17c964;
+    --ps-primitive-green-600: #12a150;
+    --ps-primitive-green-700: #0e793c;
+    --ps-primitive-green-800: #095028;
+    --ps-primitive-green-900: #052814;
+
+    /* ---- amber ramp -- warning ---- */
+    --ps-primitive-amber-50: #fefce8;
+    --ps-primitive-amber-100: #fdedd3;
+    --ps-primitive-amber-200: #fbdba7;
+    --ps-primitive-amber-300: #f9c97c;
+    --ps-primitive-amber-400: #f7b750;
+    --ps-primitive-amber-500: #f5a524;
+    --ps-primitive-amber-600: #c4841d;
+    --ps-primitive-amber-700: #936316;
+    --ps-primitive-amber-800: #62420e;
+    --ps-primitive-amber-900: #312107;
+
+    /* ---- red ramp -- error ---- */
+    --ps-primitive-red-50: #fee7ef;
+    --ps-primitive-red-100: #fdd0df;
+    --ps-primitive-red-200: #faa0bf;
+    --ps-primitive-red-300: #f871a0;
+    --ps-primitive-red-400: #f54180;
+    --ps-primitive-red-500: #f31260;
+    --ps-primitive-red-600: #c20e4d;
+    --ps-primitive-red-700: #920b3a;
+    --ps-primitive-red-800: #610726;
+    --ps-primitive-red-900: #310413;
+
+    /* ---- raw typography ---- */
+    --ps-primitive-font-size-xs: 12px;
+    --ps-primitive-font-size-sm: 14px;
+    --ps-primitive-font-size-md: 16px;
+    --ps-primitive-font-size-lg: 18px;
+    --ps-primitive-font-size-xl: 20px;
+    --ps-primitive-font-size-2xl: 24px;
+    --ps-primitive-font-size-3xl: 30px;
+    --ps-primitive-font-size-4xl: 36px;
+    --ps-primitive-font-size-5xl: 48px;
+    --ps-primitive-font-size-6xl: 60px;
+
+    --ps-primitive-font-weight-thin: 100;
+    --ps-primitive-font-weight-extralight: 200;
+    --ps-primitive-font-weight-light: 300;
+    --ps-primitive-font-weight-normal: 400;
+    --ps-primitive-font-weight-medium: 500;
+    --ps-primitive-font-weight-semibold: 600;
+    --ps-primitive-font-weight-bold: 700;
+    --ps-primitive-font-weight-extrabold: 800;
+    --ps-primitive-font-weight-black: 900;
+
+    --ps-primitive-font-family: "Inter", sans-serif;
+    --ps-primitive-font-family-mono:
+        ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+    /* ---- raw radius ---- */
+    --ps-primitive-radius-none: 0px;
+    --ps-primitive-radius-xs: 2px;
+    --ps-primitive-radius-sm: 4px;
+    --ps-primitive-radius-md: 6px;
+    --ps-primitive-radius-lg: 8px;
+    --ps-primitive-radius-xl: 12px;
+    --ps-primitive-radius-2xl: 16px;
+    --ps-primitive-radius-3xl: 24px;
+    --ps-primitive-radius-4xl: 32px;
+    --ps-primitive-radius-full: 9999px;
+
+    /* ---- raw spacing ---- */
+    --ps-primitive-space-none: 0px;
+    --ps-primitive-space-xs: 4px;
+    --ps-primitive-space-sm: 8px;
+    --ps-primitive-space-md: 12px;
+    --ps-primitive-space-lg: 16px;
+    --ps-primitive-space-xl: 24px;
+    --ps-primitive-space-2xl: 32px;
+    --ps-primitive-space-3xl: 48px;
+    --ps-primitive-space-4xl: 64px;
+    --ps-primitive-space-5xl: 80px;
+    --ps-primitive-space-6xl: 96px;
+
+    /* ---- raw dimension ---- */
+    --ps-primitive-dimension-20: 20px;
+    --ps-primitive-dimension-24: 24px;
+    --ps-primitive-dimension-28: 28px;
+    --ps-primitive-dimension-32: 32px;
+    --ps-primitive-dimension-40: 40px;
+    --ps-primitive-dimension-48: 48px;
+
+    /* ---- raw shadow ---- */
+    --ps-primitive-shadow-none: none;
+    --ps-primitive-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --ps-primitive-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.1);
+    --ps-primitive-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.14);
+    --ps-primitive-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.16);
+    --ps-primitive-shadow-xl: 0 8px 28px rgba(0, 0, 0, 0.18);
+    --ps-primitive-shadow-2xl: 0 16px 48px rgba(0, 0, 0, 0.22);
+
+    /* ---- raw blur — backdrop-filter amount ---- */
+    --ps-primitive-blur-none: 0px;
+    --ps-primitive-blur-sm: 4px;
+    --ps-primitive-blur-md: 8px;
+    --ps-primitive-blur-lg: 16px;
+    --ps-primitive-blur-xl: 24px;
+
+    /* ---- raw duration ---- */
+    --ps-primitive-duration-instant: 100ms;
+    --ps-primitive-duration-fast: 150ms;
+    --ps-primitive-duration-base: 200ms;
+    --ps-primitive-duration-slow: 300ms;
+
+    /* ---- raw focus ring geometry ---- */
+    --ps-primitive-focus-ring-width: 2px;
+    --ps-primitive-focus-ring-offset: 2px;
+
+    /* ---- raw disabled opacity ---- */
+    --ps-primitive-disabled-opacity: 0.5;
+}

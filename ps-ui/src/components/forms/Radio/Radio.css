@@ -1,0 +1,177 @@
+.ps-radio {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--ps-space-xs);
+    cursor: pointer;
+    user-select: none;
+    width: fit-content;
+}
+
+.ps-radio__row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ps-space-sm);
+}
+
+.ps-radio--children-start .ps-radio__row {
+    flex-direction: row-reverse;
+}
+
+.ps-radio--align-start .ps-radio__row {
+    align-items: flex-start;
+}
+.ps-radio--align-center .ps-radio__row {
+    align-items: center;
+}
+.ps-radio--align-end .ps-radio__row {
+    align-items: flex-end;
+}
+.ps-radio--align-start .ps-radio__box,
+.ps-radio--align-end .ps-radio__box {
+    margin-top: 2px;
+}
+
+.ps-radio__text {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--ps-space-xs);
+}
+
+.ps-radio--layout-row .ps-radio__text {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--ps-space-xs);
+}
+
+.ps-radio--layout-full > .ps-radio__description {
+    margin-top: var(--ps-space-xs);
+}
+
+.ps-radio__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.ps-radio__box {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: var(--ps-radio-border-w) solid var(--ps-radio-color);
+    border-radius: var(--ps-component-radius-full);
+    background-color: transparent;
+    transition:
+        border-color var(--ps-duration-fast) var(--ps-ease-standard),
+        transform var(--ps-duration-fast) var(--ps-ease-standard);
+    width: var(--ps-radio-size);
+    height: var(--ps-radio-size);
+}
+
+.ps-radio__dot {
+    border-radius: var(--ps-component-radius-full);
+    background-color: var(--ps-radio-color);
+    width: 50%;
+    height: 50%;
+    transform: scale(0);
+    transition: transform var(--ps-duration-fast) var(--ps-ease-spring);
+}
+
+.ps-radio__label {
+    color: var(--ps-foreground);
+    font-size: var(--ps-radio-font);
+    transition: color var(--ps-duration-fast) var(--ps-ease-standard);
+}
+
+.ps-radio__description {
+    color: var(--ps-muted);
+    font-size: var(--ps-description-font);
+}
+
+.ps-radio[data-disable-animation="true"] .ps-radio__box,
+.ps-radio[data-disable-animation="true"] .ps-radio__dot {
+    transition: none;
+}
+
+.ps-radio--readonly {
+    cursor: default;
+}
+
+.ps-radio--disabled {
+    cursor: not-allowed;
+    opacity: var(--ps-disabled-opacity);
+}
+
+.ps-radio--sm {
+    --ps-radio-size: calc(var(--ps-compact-sm) - 4px);
+    --ps-radio-font: var(--ps-font-sm);
+    --ps-radio-border-w: 2px;
+}
+.ps-radio--md {
+    --ps-radio-size: calc(var(--ps-compact-md) - 4px);
+    --ps-radio-font: var(--ps-font-md);
+    --ps-radio-border-w: 2px;
+}
+.ps-radio--lg {
+    --ps-radio-size: calc(var(--ps-compact-lg) - 4px);
+    --ps-radio-font: var(--ps-font-lg);
+    --ps-radio-border-w: 2.5px;
+}
+
+.ps-radio--default {
+    --ps-radio-color: var(--ps-default-active);
+}
+.ps-radio--primary {
+    --ps-radio-color: var(--ps-primary);
+}
+.ps-radio--secondary {
+    --ps-radio-color: var(--ps-secondary);
+}
+.ps-radio--success {
+    --ps-radio-color: var(--ps-success);
+}
+.ps-radio--warning {
+    --ps-radio-color: var(--ps-warning);
+}
+.ps-radio--error {
+    --ps-radio-color: var(--ps-error);
+}
+
+.ps-radio--invalid {
+    --ps-radio-color: var(--ps-error);
+}
+
+.ps-radio__input:checked ~ .ps-radio__box .ps-radio__dot {
+    transform: scale(1);
+}
+
+.ps-radio__input:focus-visible ~ .ps-radio__box {
+    outline: var(--ps-focus-ring-width) solid var(--ps-focus-ring-color);
+    outline-offset: var(--ps-focus-ring-offset);
+}
+
+.ps-radio--disabled .ps-radio__input {
+    pointer-events: none;
+}
+
+.ps-radio:not([data-disable-animation="true"])
+    .ps-radio__input:active:not(:disabled)
+    ~ .ps-radio__box {
+    transform: scale(0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ps-radio__box,
+    .ps-radio__dot,
+    .ps-radio__label {
+        transition: none;
+    }
+}

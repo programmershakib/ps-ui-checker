@@ -1,0 +1,8 @@
+@import "./semantic.css";
+@import "./scales.css";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}

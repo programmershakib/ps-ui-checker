@@ -1,0 +1,3 @@
+.ps-radio-group__required {
+    color: var(--ps-error);
+}

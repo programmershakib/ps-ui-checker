@@ -1,0 +1,157 @@
+.ps-text {
+    margin: 0;
+    font-family: var(--ps-font-family);
+    line-height: 1.5;
+}
+
+.ps-text--size-xs {
+    font-size: var(--ps-font-xs);
+}
+.ps-text--size-sm {
+    font-size: var(--ps-font-sm);
+}
+.ps-text--size-md {
+    font-size: var(--ps-font-md);
+}
+.ps-text--size-lg {
+    font-size: var(--ps-font-lg);
+}
+.ps-text--size-xl {
+    font-size: var(--ps-font-xl);
+}
+.ps-text--size-2xl {
+    font-size: var(--ps-font-2xl);
+}
+.ps-text--size-3xl {
+    font-size: var(--ps-font-3xl);
+}
+.ps-text--size-4xl {
+    font-size: var(--ps-font-4xl);
+}
+.ps-text--size-5xl {
+    font-size: var(--ps-font-5xl);
+}
+.ps-text--size-6xl {
+    font-size: var(--ps-font-6xl);
+}
+
+.ps-text--weight-thin {
+    font-weight: var(--ps-font-weight-thin);
+}
+.ps-text--weight-extralight {
+    font-weight: var(--ps-font-weight-extralight);
+}
+.ps-text--weight-light {
+    font-weight: var(--ps-font-weight-light);
+}
+.ps-text--weight-normal {
+    font-weight: var(--ps-font-weight-normal);
+}
+.ps-text--weight-medium {
+    font-weight: var(--ps-font-weight-medium);
+}
+.ps-text--weight-semibold {
+    font-weight: var(--ps-font-weight-semibold);
+}
+.ps-text--weight-bold {
+    font-weight: var(--ps-font-weight-bold);
+}
+.ps-text--weight-extrabold {
+    font-weight: var(--ps-font-weight-extrabold);
+}
+.ps-text--weight-black {
+    font-weight: var(--ps-font-weight-black);
+}
+
+.ps-text--family-mono {
+    font-family: var(--ps-font-family-mono);
+}
+
+.ps-text--align-left {
+    text-align: left;
+}
+.ps-text--align-center {
+    text-align: center;
+}
+.ps-text--align-right {
+    text-align: right;
+}
+.ps-text--align-justify {
+    text-align: justify;
+}
+.ps-text--align-start {
+    text-align: start;
+}
+.ps-text--align-end {
+    text-align: end;
+}
+
+.ps-text--decoration-none {
+    text-decoration-line: none;
+}
+.ps-text--decoration-underline {
+    text-decoration-line: underline;
+}
+.ps-text--decoration-line-through {
+    text-decoration-line: line-through;
+}
+.ps-text--decoration-overline {
+    text-decoration-line: overline;
+}
+
+.ps-text--case-none {
+    text-transform: none;
+}
+.ps-text--case-uppercase {
+    text-transform: uppercase;
+}
+.ps-text--case-lowercase {
+    text-transform: lowercase;
+}
+.ps-text--case-capitalize {
+    text-transform: capitalize;
+}
+
+.ps-text--word-break-normal {
+    word-break: normal;
+}
+.ps-text--word-break-all {
+    word-break: break-all;
+}
+.ps-text--word-break-keep-all {
+    word-break: keep-all;
+}
+.ps-text--word-break-word {
+    word-break: break-word;
+}
+
+.ps-text--white-space-normal {
+    white-space: normal;
+}
+.ps-text--white-space-nowrap {
+    white-space: nowrap;
+}
+.ps-text--white-space-pre {
+    white-space: pre;
+}
+.ps-text--white-space-pre-line {
+    white-space: pre-line;
+}
+.ps-text--white-space-pre-wrap {
+    white-space: pre-wrap;
+}
+
+.ps-text--italic {
+    font-style: italic;
+}
+
+.ps-text--truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.ps-text--line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

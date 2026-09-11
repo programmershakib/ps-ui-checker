@@ -1,0 +1,226 @@
+.ps-spinner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 0;
+    vertical-align: middle;
+}
+
+.ps-spinner--sm {
+    width: var(--ps-compact-sm);
+    height: var(--ps-compact-sm);
+}
+.ps-spinner--md {
+    width: var(--ps-compact-md);
+    height: var(--ps-compact-md);
+}
+.ps-spinner--lg {
+    width: var(--ps-compact-lg);
+    height: var(--ps-compact-lg);
+}
+
+.ps-spinner__default {
+    width: 100%;
+    height: 100%;
+    animation-name: ps-spinner-default-rotate;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.ps-spinner__default--reverse {
+    animation-direction: reverse;
+}
+
+.ps-spinner__default-circle {
+    stroke-width: 4;
+    stroke-linecap: round;
+    transform-origin: 25px 25px;
+    animation-name: ps-spinner-default-dash, ps-spinner-default-drift;
+    animation-timing-function: var(--ps-ease-standard), linear;
+    animation-iteration-count: infinite, infinite;
+}
+
+.ps-spinner__default--reverse .ps-spinner__default-circle {
+    animation-direction: normal, reverse;
+}
+
+@keyframes ps-spinner-default-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ps-spinner-default-dash {
+    0% {
+        stroke-dasharray: 1, 126;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 94, 126;
+        stroke-dashoffset: -32;
+    }
+    100% {
+        stroke-dasharray: 94, 126;
+        stroke-dashoffset: -124;
+    }
+}
+
+@keyframes ps-spinner-default-drift {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ps-spinner__fade {
+    width: 100%;
+    height: 100%;
+    animation-name: ps-spinner-fade-spin;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.ps-spinner__fade--reverse {
+    animation-direction: reverse;
+}
+
+@keyframes ps-spinner-fade-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ps-spinner__spinner {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 50%;
+    animation-name: ps-spinner-spinner-rotate;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.ps-spinner__spinner--reverse {
+    animation-direction: reverse;
+}
+
+@keyframes ps-spinner-spinner-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ps-spinner__swirling {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.ps-spinner__swirling-circle {
+    transform-origin: center;
+    animation:
+        ps-spinner-swirling-dash var(--ps-spinner-swirl-duration, 1.5s)
+            ease-in-out infinite alternate,
+        ps-spinner-swirling-spin
+            calc(var(--ps-spinner-swirl-duration, 1.5s) * 1.333333) linear
+            infinite;
+}
+
+.ps-spinner__swirling--reverse .ps-spinner__swirling-circle {
+    animation-direction: alternate, reverse;
+}
+
+@keyframes ps-spinner-swirling-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ps-spinner-swirling-dash {
+    0% {
+        stroke-dasharray: 1, 800;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 400, 400;
+        stroke-dashoffset: -200px;
+    }
+    100% {
+        stroke-dasharray: 800, 1;
+        stroke-dashoffset: -800px;
+    }
+}
+
+.ps-spinner__dots {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    transform: rotate(45deg) scale(0.875);
+    animation-name: ps-spinner-dots-rotate;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.ps-spinner__dots--reverse {
+    animation-direction: reverse;
+}
+
+.ps-spinner__dots-dot {
+    width: 45%;
+    height: 45%;
+    position: absolute;
+    display: block;
+    border-radius: 100%;
+    transform: scale(0.75);
+    transform-origin: 50% 50%;
+    opacity: 0.3;
+    animation-name: ps-spinner-dots-dot-move;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.ps-spinner__dots-dot--tl {
+    top: 0;
+    left: 0;
+}
+.ps-spinner__dots-dot--tr {
+    top: 0;
+    right: 0;
+}
+.ps-spinner__dots-dot--br {
+    right: 0;
+    bottom: 0;
+}
+.ps-spinner__dots-dot--bl {
+    bottom: 0;
+    left: 0;
+}
+
+@keyframes ps-spinner-dots-rotate {
+    to {
+        transform: rotate(405deg) scale(0.875);
+    }
+}
+
+@keyframes ps-spinner-dots-dot-move {
+    to {
+        opacity: 1;
+        transform: scale(0.9);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ps-spinner__default,
+    .ps-spinner__default-circle,
+    .ps-spinner__fade,
+    .ps-spinner__spinner,
+    .ps-spinner__swirling-circle,
+    .ps-spinner__dots,
+    .ps-spinner__dots-dot {
+        animation-duration: 3s !important;
+    }
+}
