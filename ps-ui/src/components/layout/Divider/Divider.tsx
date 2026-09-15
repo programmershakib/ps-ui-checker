@@ -1,9 +1,13 @@
-import { resolveColor } from "../../../utils/resolvers/resolve-color";
 import type { DividerProps } from "./Divider.types";
-import { cn } from "../../../utils/class-names/cn";
+import { cn, resolveColor } from "../../../utils";
 import { dividerRecipe } from "./Divider.recipe";
-import type { ElementType } from "react";
 import "./Divider.css";
+import {
+    forwardRef,
+    type ElementType,
+    type ReactElement,
+    type Ref,
+} from "react";
 
 const THICKNESS_TOKENS = new Set(["thin", "medium", "thick"]);
 
@@ -17,21 +21,24 @@ function resolveThickness(value: string | number): string {
     return typeof value === "number" ? `${value}px` : value;
 }
 
-const Divider = ({
-    as,
-    id,
-    style,
-    className,
-    classNames,
-    orientation = "horizontal",
-    variant = "solid",
-    color,
-    thickness = "thin",
-    inset = false,
-    children,
-    childrenAlign = "center",
-    ...rest
-}: DividerProps) => {
+function DividerRender<C extends ElementType = "div">(
+    {
+        as,
+        id,
+        style,
+        className,
+        classNames,
+        orientation = "horizontal",
+        variant = "solid",
+        color,
+        thickness = "thin",
+        inset = false,
+        children,
+        childrenAlign = "center",
+        ...rest
+    }: DividerProps<C>,
+    ref: Ref<Element>,
+) {
     const thicknessIsToken = isThicknessToken(thickness);
     const inlineThickness = thicknessIsToken
         ? undefined
@@ -62,6 +69,7 @@ const Divider = ({
         return (
             <Component
                 {...rest}
+                ref={ref}
                 id={id}
                 role={Component === "hr" ? undefined : "separator"}
                 aria-orientation={
@@ -80,6 +88,7 @@ const Divider = ({
     return (
         <Component
             {...rest}
+            ref={ref}
             id={id}
             role="separator"
             aria-orientation={
@@ -110,6 +119,12 @@ const Divider = ({
             />
         </Component>
     );
-};
+}
+
+const Divider = forwardRef(DividerRender) as <C extends ElementType = "div">(
+    props: DividerProps<C>,
+) => ReactElement | null;
+
+(Divider as unknown as { displayName: string }).displayName = "Divider";
 
 export default Divider;

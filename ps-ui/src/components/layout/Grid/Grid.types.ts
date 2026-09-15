@@ -1,5 +1,5 @@
-import type { ElementType, HTMLAttributes, ReactNode } from "react";
-import type { Base, Space } from "../../../types/common";
+import type { ComponentPropsWithRef, ElementType, ReactNode } from "react";
+import type { Base, Space } from "../../../types";
 
 type GridAlign = "start" | "center" | "end" | "stretch" | "baseline";
 
@@ -23,16 +23,15 @@ type GridJustifyContent =
     | "around"
     | "evenly";
 
-type GridFlow = "row" | "column" | "row-dense" | "column-dense";
+type GridFlow = "row" | "column" | "dense" | "row-dense" | "column-dense";
 
-type GridColumnMode = "fit" | "fill";
+type GridColumnMode = "auto-fit" | "auto-fill";
 
 type SpaceOrRaw = Space | number | (string & {});
 
 interface GridOwnProps extends Base {
-    as?: ElementType;
-
     columns?: number;
+
     minColumnWidth?: string;
     columnMode?: GridColumnMode;
 
@@ -41,6 +40,7 @@ interface GridOwnProps extends Base {
 
     align?: GridAlign;
     justify?: GridJustify;
+
     alignContent?: GridAlignContent;
     justifyContent?: GridJustifyContent;
 
@@ -55,7 +55,6 @@ interface GridOwnProps extends Base {
     children?: ReactNode;
 }
 
-export interface GridProps
-    extends
-        GridOwnProps,
-        Omit<HTMLAttributes<HTMLElement>, keyof GridOwnProps> {}
+export type GridProps<C extends ElementType = "div"> = GridOwnProps & {
+    as?: C;
+} & Omit<ComponentPropsWithRef<C>, keyof GridOwnProps | "as">;

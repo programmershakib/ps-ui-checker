@@ -1,4 +1,4 @@
-import type { Base, Color, Size } from "../../../types/common";
+import type { Base, Color, Size } from "../../../types";
 
 export type SpinnerVariant =
     | "default"

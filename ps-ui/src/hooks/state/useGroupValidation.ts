@@ -1,4 +1,4 @@
-import type { ValidationError, ValidationResult } from "../../types/validation";
+import type { ValidationError, ValidationResult } from "../../types";
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 

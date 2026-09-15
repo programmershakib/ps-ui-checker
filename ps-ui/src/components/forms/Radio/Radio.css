@@ -67,7 +67,7 @@
     justify-content: center;
     box-sizing: border-box;
     border: var(--ps-radio-border-w) solid var(--ps-radio-color);
-    border-radius: var(--ps-component-radius-full);
+    border-radius: var(--ps-radius-full);
     background-color: transparent;
     transition:
         border-color var(--ps-duration-fast) var(--ps-ease-standard),
@@ -77,7 +77,7 @@
 }
 
 .ps-radio__dot {
-    border-radius: var(--ps-component-radius-full);
+    border-radius: var(--ps-radius-full);
     background-color: var(--ps-radio-color);
     width: 50%;
     height: 50%;

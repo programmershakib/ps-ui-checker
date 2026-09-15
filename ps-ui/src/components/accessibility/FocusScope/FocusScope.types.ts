@@ -1,10 +1,11 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
-import type { Base } from "../../../types/common";
+import type { ContainerLike } from "../../../types";
 import type {
+    Base,
     AutoFocusEvent,
     EscapeKeyDownEvent,
     FocusOutsideEvent,
-} from "../../../types/interaction";
+} from "../../../types";
 
 interface FocusScopeOwnProps extends Base {
     as?: ElementType;
@@ -16,6 +17,8 @@ interface FocusScopeOwnProps extends Base {
     restoreFocus?: boolean;
 
     initialFocus?: HTMLElement | (() => HTMLElement | null);
+
+    containers?: Array<ContainerLike>;
 
     onMountAutoFocus?: (event: AutoFocusEvent) => void;
     onUnmountAutoFocus?: (event: AutoFocusEvent) => void;

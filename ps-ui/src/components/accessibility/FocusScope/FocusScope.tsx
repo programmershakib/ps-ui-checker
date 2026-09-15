@@ -1,12 +1,14 @@
-import { focusFirst, getTabbableEdges } from "../../../utils/focus/tabbable";
-import { useComposedRefs } from "../../../hooks/refs/useComposedRefs";
-import { useCallbackRef } from "../../../hooks/refs/useCallbackRef";
+import { useCallbackRef, useComposedRefs } from "../../../hooks";
+import type { StackableFocusScope } from "../../../types";
 import type { FocusScopeProps } from "./FocusScope.types";
-import { cn } from "../../../utils/class-names/cn";
 import {
+    cn,
+    focusFirst,
     focusScopesStack,
-    type StackableFocusScope,
-} from "../../../utils/focus/focus-scope-stack";
+    getTabbableEdges,
+    restoreFocus,
+    resolveContainers,
+} from "../../../utils";
 import {
     forwardRef,
     memo,
@@ -37,8 +39,9 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
             contain = false,
             loop = false,
             autoFocus = true,
-            restoreFocus = true,
+            restoreFocus: restoreFocusOnUnmount = true,
             initialFocus,
+            containers,
             onMountAutoFocus,
             onUnmountAutoFocus,
             onFocusOutside,
@@ -60,6 +63,8 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
         containRef.current = contain;
         const loopRef = useRef(loop);
         loopRef.current = loop;
+        const containersRef = useRef(containers);
+        containersRef.current = containers;
 
         const lastFocusedInsideRef = useRef<HTMLElement | null>(null);
 
@@ -97,7 +102,7 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
                     handleMountEvent as EventListener,
                 );
 
-                if (!restoreFocus) return;
+                if (!restoreFocusOnUnmount) return;
 
                 const unmountEvent = new CustomEvent(
                     AUTO_FOCUS_ON_UNMOUNT,
@@ -106,11 +111,11 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
                 onUnmountAutoFocusRef(unmountEvent);
 
                 if (!unmountEvent.defaultPrevented) {
-                    focusFirst([previouslyFocused, document.body]);
+                    restoreFocus(previouslyFocused, document.body);
                 }
             };
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [container, autoFocus, restoreFocus]);
+        }, [container, autoFocus, restoreFocusOnUnmount]);
 
         useEffect(() => {
             if (!container) return;
@@ -128,11 +133,22 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
 
             if (contain) focusScopesStack.add(scope);
 
+            const isInsideScope = (node: Node | null | undefined) => {
+                if (!node || !(node instanceof Node)) return false;
+                return (
+                    container?.contains(node) ||
+                    container === node ||
+                    resolveContainers(containersRef.current).some(
+                        (element) => element === node || element.contains(node),
+                    )
+                );
+            };
+
             const handleFocusIn = (event: FocusEvent) => {
                 if (scope.paused || !containRef.current) return;
 
                 const target = event.target as HTMLElement | null;
-                if (container.contains(target)) {
+                if (isInsideScope(target)) {
                     lastFocusedInsideRef.current = target;
                 } else {
                     focusFirst(
@@ -146,11 +162,11 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
                 }
             };
 
-            const handlePointerDownOutside = (event: MouseEvent) => {
+            const handlePointerDownOutside = (event: PointerEvent) => {
                 if (scope.paused) return;
 
                 const target = event.target as HTMLElement | null;
-                if (!target || container.contains(target)) return;
+                if (!target || isInsideScope(target)) return;
 
                 let prevented = false;
                 onFocusOutsideRef({
@@ -208,7 +224,7 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
 
             document.addEventListener("focusin", handleFocusIn);
             document.addEventListener(
-                "mousedown",
+                "pointerdown",
                 handlePointerDownOutside,
                 true,
             );
@@ -217,7 +233,7 @@ const FocusScope = forwardRef<HTMLElement, FocusScopeProps>(
             return () => {
                 document.removeEventListener("focusin", handleFocusIn);
                 document.removeEventListener(
-                    "mousedown",
+                    "pointerdown",
                     handlePointerDownOutside,
                     true,
                 );

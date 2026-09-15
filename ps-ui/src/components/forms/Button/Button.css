@@ -145,19 +145,19 @@
 }
 
 .ps-button--radius-none {
-    border-radius: var(--ps-component-radius-none);
+    border-radius: var(--ps-radius-none);
 }
 .ps-button--radius-sm {
-    border-radius: var(--ps-component-radius-sm);
+    border-radius: var(--ps-radius-sm);
 }
 .ps-button--radius-md {
-    border-radius: var(--ps-component-radius-md);
+    border-radius: var(--ps-radius-md);
 }
 .ps-button--radius-lg {
-    border-radius: var(--ps-component-radius-lg);
+    border-radius: var(--ps-radius-lg);
 }
 .ps-button--radius-full {
-    border-radius: var(--ps-component-radius-full);
+    border-radius: var(--ps-radius-full);
 }
 
 .ps-button--solid {

@@ -1,4 +1,4 @@
-import { createRecipe } from "../../../system/create-recipe";
+import { createRecipe } from "../../../system";
 
 export const gridRecipe = createRecipe({
     base: "ps-grid",
@@ -19,6 +19,7 @@ export const gridRecipe = createRecipe({
         flow: {
             row: "ps-grid--flow-row",
             column: "ps-grid--flow-column",
+            dense: "ps-grid--flow-dense",
             "row-dense": "ps-grid--flow-row-dense",
             "column-dense": "ps-grid--flow-column-dense",
         },

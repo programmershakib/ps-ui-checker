@@ -1,8 +1,7 @@
 "use client";
 
-import { resolveColor } from "../../../utils/resolvers/resolve-color";
 import type { RippleProps, RippleItem } from "./Ripple.types";
-import { cn } from "../../../utils/class-names/cn";
+import { cn, resolveColor } from "../../../utils";
 import "./Ripple.css";
 import {
     memo,

@@ -1,4 +1,4 @@
-import type { Base, Space } from "../../../types/common";
+import type { Base, Space } from "../../../types";
 import type { HTMLAttributes } from "react";
 
 type SpacerSize = Space | number | (string & {});

@@ -1,4 +1,4 @@
-import { createRecipe } from "../../../system/create-recipe";
+import { createRecipe } from "../../../system";
 
 export const flexRecipe = createRecipe({
     base: "ps-flex",

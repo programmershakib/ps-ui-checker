@@ -11,12 +11,13 @@ import type {
     Easing,
     FontSize,
     FontWeight,
+    LetterSpacing,
+    LineHeight,
     Radius,
-    RadiusScale,
     Shadow,
     Size,
     Space,
-} from "../types/common";
+} from "../types";
 
 const COLOR_KEY_SUFFIX: Record<keyof ColorOverride, string> = {
     DEFAULT: "",
@@ -45,8 +46,9 @@ export function createTheme(config: ThemeConfig): CSSProperties {
         fontSizes,
         fontWeights,
         fontFamily,
+        lineHeights,
+        letterSpacings,
         radius,
-        radiusScale,
         controlSizes,
         compactSizes,
         spacing,
@@ -90,16 +92,23 @@ export function createTheme(config: ThemeConfig): CSSProperties {
         vars["--ps-font-family"] = fontFamily;
     }
 
-    if (radius) {
-        for (const key in radius) {
-            const value = radius[key as Radius];
-            if (value) vars[`--ps-component-radius-${key}`] = value;
+    if (lineHeights) {
+        for (const key in lineHeights) {
+            const value = lineHeights[key as LineHeight];
+            if (value) vars[`--ps-line-height-${key}`] = value;
         }
     }
 
-    if (radiusScale) {
-        for (const key in radiusScale) {
-            const value = radiusScale[key as RadiusScale];
+    if (letterSpacings) {
+        for (const key in letterSpacings) {
+            const value = letterSpacings[key as LetterSpacing];
+            if (value) vars[`--ps-letter-spacing-${key}`] = value;
+        }
+    }
+
+    if (radius) {
+        for (const key in radius) {
+            const value = radius[key as Radius];
             if (value) vars[`--ps-radius-${key}`] = value;
         }
     }

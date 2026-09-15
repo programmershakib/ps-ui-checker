@@ -1,12 +1,23 @@
-const LINE_HEIGHT_PRESETS: Record<string, string> = {
-    tight: "1.25",
-    normal: "1.5",
-    relaxed: "1.625",
-    loose: "2",
-};
+import type { LineHeight } from "../../types";
 
-export function resolveLineHeight(value?: string | number): string | undefined {
+const LINE_HEIGHT_TOKENS = new Set<LineHeight>([
+    "tight",
+    "normal",
+    "relaxed",
+    "loose",
+]);
+
+export function isLineHeightToken(value: unknown): value is LineHeight {
+    return (
+        typeof value === "string" && LINE_HEIGHT_TOKENS.has(value as LineHeight)
+    );
+}
+
+export function resolveLineHeight(
+    value: LineHeight | number | string | undefined,
+): string | undefined {
     if (value === undefined) return undefined;
-    const key = String(value);
-    return LINE_HEIGHT_PRESETS[key] ?? key;
+    if (typeof value === "number") return String(value);
+    if (isLineHeightToken(value)) return `var(--ps-line-height-${value})`;
+    return value;
 }

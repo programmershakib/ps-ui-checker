@@ -1,15 +1,32 @@
-import { resolveLineHeight } from "../../../utils/resolvers/resolve-line-height";
-import { resolveColor } from "../../../utils/resolvers/resolve-color";
-import type { ElementType, ReactElement, CSSProperties } from "react";
-import { cn } from "../../../utils/class-names/cn";
-import type { TextProps } from "./Text.types";
+import type { TextProps, TextStyle } from "./Text.types";
 import { textRecipe } from "./Text.recipe";
-import { forwardRef } from "react";
 import "./Text.css";
 import {
+    isColorToken,
     isFontSizeToken,
+    isLetterSpacingToken,
+    isLineHeightToken,
+    resolveColor,
     resolveFontSize,
-} from "../../../utils/resolvers/resolve-font-size";
+    resolveLetterSpacing,
+    resolveLineHeight,
+    cn,
+} from "../../../utils";
+import {
+    forwardRef,
+    type ElementType,
+    type ReactElement,
+    type CSSProperties,
+} from "react";
+
+function textStyle<T extends string, V>(
+    isToken: (value: unknown) => value is T,
+    value: V | undefined,
+    toInline: (value: V | undefined) => string | undefined,
+): TextStyle<T> {
+    if (isToken(value)) return { token: value };
+    return { inline: toInline(value) };
+}
 
 function TextRender<C extends ElementType = "p">(
     {
@@ -38,9 +55,18 @@ function TextRender<C extends ElementType = "p">(
 ) {
     const Component = (as ?? "p") as ElementType;
 
-    const sizeIsToken = isFontSizeToken(size);
-    const inlineFontSize = sizeIsToken ? undefined : resolveFontSize(size);
-    const resolvedLineHeight = resolveLineHeight(lineHeight);
+    const resolvedColor = textStyle(isColorToken, color, resolveColor);
+    const resolvedSize = textStyle(isFontSizeToken, size, resolveFontSize);
+    const resolvedLineHeight = textStyle(
+        isLineHeightToken,
+        lineHeight,
+        resolveLineHeight,
+    );
+    const resolvedLetterSpacing = textStyle(
+        isLetterSpacingToken,
+        letterSpacing,
+        resolveLetterSpacing,
+    );
 
     return (
         <Component
@@ -50,18 +76,27 @@ function TextRender<C extends ElementType = "p">(
             style={
                 {
                     ...style,
-                    color: resolveColor(color),
-                    ...(inlineFontSize && { fontSize: inlineFontSize }),
-                    ...(letterSpacing && { letterSpacing }),
-                    ...(resolvedLineHeight && {
-                        lineHeight: resolvedLineHeight,
+                    ...(resolvedColor.inline && {
+                        color: resolvedColor.inline,
+                    }),
+                    ...(resolvedSize.inline && {
+                        fontSize: resolvedSize.inline,
+                    }),
+                    ...(resolvedLineHeight.inline && {
+                        lineHeight: resolvedLineHeight.inline,
+                    }),
+                    ...(resolvedLetterSpacing.inline && {
+                        letterSpacing: resolvedLetterSpacing.inline,
                     }),
                     ...(lineClamp && { WebkitLineClamp: lineClamp, lineClamp }),
                 } as CSSProperties
             }
             className={cn(
                 textRecipe({
-                    size: sizeIsToken ? size : undefined,
+                    color: resolvedColor.token,
+                    size: resolvedSize.token,
+                    lineHeight: resolvedLineHeight.token,
+                    letterSpacing: resolvedLetterSpacing.token,
                     weight,
                     family,
                     decoration,

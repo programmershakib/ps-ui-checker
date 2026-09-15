@@ -1,5 +1,5 @@
-import type { Base, Color, Size } from "../../../types/common";
 import type { InputHTMLAttributes, ReactNode } from "react";
+import type { Base, Color, Size } from "../../../types";
 
 interface SwitchClassNames {
     base?: string;

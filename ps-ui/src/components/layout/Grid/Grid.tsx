@@ -1,82 +1,88 @@
-import { resolveSpace } from "../../../utils/resolvers/resolve-space";
-import { forwardRef, memo, type CSSProperties } from "react";
-import { cn } from "../../../utils/class-names/cn";
+import { cn, resolveSpace } from "../../../utils";
 import type { GridProps } from "./Grid.types";
 import { gridRecipe } from "./Grid.recipe";
 import "./Grid.css";
+import {
+    forwardRef,
+    type CSSProperties,
+    type ElementType,
+    type ReactElement,
+    type Ref,
+} from "react";
 
-const Grid = forwardRef<HTMLElement, GridProps>(
-    (
-        {
-            as: Component = "div",
-            id,
-            style,
-            className,
-            columns,
-            minColumnWidth,
-            columnMode = "fit",
-            templateColumns,
-            templateRows,
-            align = "stretch",
-            justify = "stretch",
-            alignContent,
-            justifyContent,
-            flow = "row",
-            gap,
-            gapX,
-            gapY,
-            inline = false,
-            children,
-            ...rest
-        },
-        ref,
-    ) => {
-        const resolvedStyle: CSSProperties = { ...style };
+function GridRender<C extends ElementType = "div">(
+    {
+        as,
+        id,
+        style,
+        className,
+        columns,
+        minColumnWidth,
+        columnMode = "auto-fit",
+        templateColumns,
+        templateRows,
+        align = "stretch",
+        justify = "stretch",
+        alignContent,
+        justifyContent,
+        flow = "row",
+        gap,
+        gapX,
+        gapY,
+        inline = false,
+        children,
+        ...rest
+    }: GridProps<C>,
+    ref: Ref<Element>,
+) {
+    const Component = (as ?? "div") as ElementType;
 
-        if (templateColumns) {
-            resolvedStyle.gridTemplateColumns = templateColumns;
-        } else if (minColumnWidth) {
-            const mode = columnMode === "fill" ? "auto-fill" : "auto-fit";
-            resolvedStyle.gridTemplateColumns = `repeat(${mode}, minmax(${minColumnWidth}, 1fr))`;
-        } else if (columns) {
-            resolvedStyle.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
-        }
+    const resolvedStyle: CSSProperties = { ...style };
 
-        if (templateRows) resolvedStyle.gridTemplateRows = templateRows;
+    if (templateColumns) {
+        resolvedStyle.gridTemplateColumns = templateColumns;
+    } else if (minColumnWidth) {
+        resolvedStyle.gridTemplateColumns = `repeat(${columnMode}, minmax(${minColumnWidth}, 1fr))`;
+    } else if (columns) {
+        resolvedStyle.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
+    }
 
-        const resolvedGap = resolveSpace(gap);
-        if (resolvedGap) resolvedStyle.gap = resolvedGap;
-        const resolvedGapX = resolveSpace(gapX);
-        if (resolvedGapX) resolvedStyle.columnGap = resolvedGapX;
-        const resolvedGapY = resolveSpace(gapY);
-        if (resolvedGapY) resolvedStyle.rowGap = resolvedGapY;
+    if (templateRows) resolvedStyle.gridTemplateRows = templateRows;
 
-        return (
-            <Component
-                {...rest}
-                ref={ref}
-                id={id}
-                style={resolvedStyle}
-                className={cn(
-                    gridRecipe({
-                        align,
-                        justify,
-                        flow,
-                        alignContent,
-                        justifyContent,
-                    }),
-                    inline && "ps-grid--inline",
-                    className,
-                )}
-            >
-                {children}
-            </Component>
-        );
-    },
-);
+    const resolvedGap = resolveSpace(gap);
+    if (resolvedGap) resolvedStyle.gap = resolvedGap;
+    const resolvedGapX = resolveSpace(gapX);
+    if (resolvedGapX) resolvedStyle.columnGap = resolvedGapX;
+    const resolvedGapY = resolveSpace(gapY);
+    if (resolvedGapY) resolvedStyle.rowGap = resolvedGapY;
 
-const MemoizedGrid = memo(Grid);
+    return (
+        <Component
+            {...rest}
+            ref={ref}
+            id={id}
+            style={resolvedStyle}
+            className={cn(
+                gridRecipe({
+                    align,
+                    justify,
+                    flow,
+                    alignContent,
+                    justifyContent,
+                }),
+                inline && "ps-grid--inline",
+                className,
+            )}
+        >
+            {children}
+        </Component>
+    );
+}
 
-MemoizedGrid.displayName = "Grid";
+const Grid = forwardRef(GridRender) as <C extends ElementType = "div">(
+    props: GridProps<C> & { ref?: Ref<Element> },
+) => ReactElement | null;
 
-export default MemoizedGrid;
+(Grid as unknown as { displayName: string }).displayName = "Grid";
+
+export default Grid;

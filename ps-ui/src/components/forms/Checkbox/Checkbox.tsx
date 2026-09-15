@@ -1,10 +1,10 @@
 "use client";
 
-import { useControllableState } from "../../../hooks/state/useControllableState";
 import { useCheckboxGroupContext } from "./CheckboxGroup.context";
+import { useControllableState } from "../../../hooks";
 import type { CheckboxProps } from "./Checkbox.types";
 import { checkboxRecipe } from "./Checkbox.recipe";
-import { cn } from "../../../utils/class-names/cn";
+import { cn } from "../../../utils";
 import "./Checkbox.css";
 import {
     forwardRef,

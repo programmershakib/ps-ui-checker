@@ -84,6 +84,9 @@
 .ps-grid--flow-column {
     grid-auto-flow: column;
 }
+.ps-grid--flow-dense {
+    grid-auto-flow: dense;
+}
 .ps-grid--flow-row-dense {
     grid-auto-flow: row dense;
 }

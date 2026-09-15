@@ -62,7 +62,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 4px;
-    border-radius: var(--ps-component-radius-full);
+    border-radius: var(--ps-radius-full);
     background-color: var(--ps-default);
     transition: background-color var(--ps-duration-fast) var(--ps-ease-standard);
     width: var(--ps-switch-track-w);

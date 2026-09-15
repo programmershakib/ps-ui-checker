@@ -1,11 +1,11 @@
 "use client";
 
-import { useControllableState } from "../../../hooks/state/useControllableState";
 import { forwardRef, memo, useId, type ChangeEvent } from "react";
 import { useSwitchGroupContext } from "./SwitchGroup.context";
-import { cn } from "../../../utils/class-names/cn";
+import { useControllableState } from "../../../hooks";
 import type { SwitchProps } from "./Switch.types";
 import { switchRecipe } from "./Switch.recipe";
+import { cn } from "../../../utils";
 import "./Switch.css";
 
 const Switch = forwardRef<HTMLInputElement, SwitchProps>(

@@ -4,6 +4,46 @@
     line-height: 1.5;
 }
 
+.ps-text--color-default {
+    color: var(--ps-default);
+}
+.ps-text--color-primary {
+    color: var(--ps-primary);
+}
+.ps-text--color-secondary {
+    color: var(--ps-secondary);
+}
+.ps-text--color-success {
+    color: var(--ps-success);
+}
+.ps-text--color-warning {
+    color: var(--ps-warning);
+}
+.ps-text--color-error {
+    color: var(--ps-error);
+}
+.ps-text--color-white {
+    color: var(--ps-white);
+}
+.ps-text--color-black {
+    color: var(--ps-black);
+}
+.ps-text--color-background {
+    color: var(--ps-background);
+}
+.ps-text--color-foreground {
+    color: var(--ps-foreground);
+}
+.ps-text--color-muted {
+    color: var(--ps-muted);
+}
+.ps-text--color-subtle {
+    color: var(--ps-subtle);
+}
+.ps-text--color-disabled {
+    color: var(--ps-disabled);
+}
+
 .ps-text--size-xs {
     font-size: var(--ps-font-xs);
 }
@@ -65,6 +105,38 @@
 
 .ps-text--family-mono {
     font-family: var(--ps-font-family-mono);
+}
+
+.ps-text--line-height-tight {
+    line-height: var(--ps-line-height-tight);
+}
+.ps-text--line-height-normal {
+    line-height: var(--ps-line-height-normal);
+}
+.ps-text--line-height-relaxed {
+    line-height: var(--ps-line-height-relaxed);
+}
+.ps-text--line-height-loose {
+    line-height: var(--ps-line-height-loose);
+}
+
+.ps-text--letter-spacing-tighter {
+    letter-spacing: var(--ps-letter-spacing-tighter);
+}
+.ps-text--letter-spacing-tight {
+    letter-spacing: var(--ps-letter-spacing-tight);
+}
+.ps-text--letter-spacing-normal {
+    letter-spacing: var(--ps-letter-spacing-normal);
+}
+.ps-text--letter-spacing-wide {
+    letter-spacing: var(--ps-letter-spacing-wide);
+}
+.ps-text--letter-spacing-wider {
+    letter-spacing: var(--ps-letter-spacing-wider);
+}
+.ps-text--letter-spacing-widest {
+    letter-spacing: var(--ps-letter-spacing-widest);
 }
 
 .ps-text--align-left {

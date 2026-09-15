@@ -1,4 +1,4 @@
-import { createRecipe } from "../../../system/create-recipe";
+import { createRecipe } from "../../../system";
 
 export const scrollShadowRecipe = createRecipe({
     base: "ps-scroll-shadow",
@@ -6,6 +6,10 @@ export const scrollShadowRecipe = createRecipe({
         orientation: {
             vertical: "ps-scroll-shadow--vertical",
             horizontal: "ps-scroll-shadow--horizontal",
+        },
+        variant: {
+            default: "ps-scroll-shadow--variant-default",
+            minimal: "ps-scroll-shadow--variant-minimal",
         },
     },
 });

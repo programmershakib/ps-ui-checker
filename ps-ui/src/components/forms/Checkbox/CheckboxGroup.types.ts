@@ -1,9 +1,11 @@
-import type { Base, Color, Size } from "../../../types/common";
 import type { HTMLAttributes, ReactNode } from "react";
 import type {
+    Base,
+    Color,
+    Size,
     ValidationError,
     ValidationResult,
-} from "../../../types/validation";
+} from "../../../types";
 
 interface CheckboxGroupClassNames {
     base?: string;

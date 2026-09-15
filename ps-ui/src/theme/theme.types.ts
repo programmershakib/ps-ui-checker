@@ -6,12 +6,13 @@ import type {
     Easing,
     FontSize,
     FontWeight,
+    LetterSpacing,
+    LineHeight,
     Radius,
-    RadiusScale,
     Shadow,
     Size,
     Space,
-} from "../types/common";
+} from "../types";
 
 export interface ColorOverride {
     DEFAULT?: string;
@@ -37,8 +38,9 @@ export interface ThemeConfig {
     fontSizes?: Partial<Record<FontSize, string>>;
     fontWeights?: Partial<Record<FontWeight, string>>;
     fontFamily?: string;
+    lineHeights?: Partial<Record<LineHeight, string>>;
+    letterSpacings?: Partial<Record<LetterSpacing, string>>;
     radius?: Partial<Record<Radius, string>>;
-    radiusScale?: Partial<Record<RadiusScale, string>>;
     controlSizes?: Partial<Record<Size, ControlSizeOverride>>;
     compactSizes?: Partial<Record<Size, string>>;
     spacing?: Partial<Record<Space, string>>;

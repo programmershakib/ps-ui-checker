@@ -1,4 +1,4 @@
-import type { Space } from "../../types/common";
+import type { Space } from "../../types";
 
 const SPACE_TOKENS = new Set<Space>([
     "none",

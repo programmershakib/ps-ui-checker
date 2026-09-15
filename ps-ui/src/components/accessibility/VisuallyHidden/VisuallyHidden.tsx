@@ -1,6 +1,6 @@
 import type { VisuallyHiddenProps } from "./VisuallyHidden.types";
-import { cn } from "../../../utils/class-names/cn";
 import { forwardRef, memo } from "react";
+import { cn } from "../../../utils";
 import "./VisuallyHidden.css";
 
 const VisuallyHidden = forwardRef<HTMLElement, VisuallyHiddenProps>(

@@ -1,24 +1,32 @@
 import type { CenterProps } from "./Center.types";
-import { forwardRef, memo } from "react";
 import { Flex } from "../Flex";
+import {
+    forwardRef,
+    type ElementType,
+    type ReactElement,
+    type Ref,
+} from "react";
 
-const Center = forwardRef<HTMLElement, CenterProps>(
-    ({ inline = false, ...rest }, ref) => {
-        return (
-            <Flex
-                {...rest}
-                ref={ref}
-                direction="row"
-                align="center"
-                justify="center"
-                inline={inline}
-            />
-        );
-    },
-);
+function CenterRender(
+    { inline = false, ...rest }: CenterProps,
+    ref?: Ref<HTMLDivElement>,
+) {
+    return (
+        <Flex
+            {...rest}
+            ref={ref}
+            direction="row"
+            align="center"
+            justify="center"
+            inline={inline}
+        />
+    );
+}
 
-const MemoizedCenter = memo(Center);
+const Center = forwardRef(CenterRender) as <C extends ElementType = "div">(
+    props: CenterProps<C>,
+) => ReactElement | null;
 
-MemoizedCenter.displayName = "Center";
+(Center as unknown as { displayName: string }).displayName = "Center";
 
-export default MemoizedCenter;
+export default Center;

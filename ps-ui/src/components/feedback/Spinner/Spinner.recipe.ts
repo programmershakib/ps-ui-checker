@@ -1,4 +1,4 @@
-import { createRecipe } from "../../../system/create-recipe";
+import { createRecipe } from "../../../system";
 
 export const spinnerRecipe = createRecipe({
     base: "ps-spinner",

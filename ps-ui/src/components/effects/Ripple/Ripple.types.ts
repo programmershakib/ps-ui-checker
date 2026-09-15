@@ -1,5 +1,5 @@
-import type { Base, Color } from "../../../types/common";
 import type { CSSProperties, RefObject } from "react";
+import type { Base, Color } from "../../../types";
 
 export interface RippleItem {
     id: number;

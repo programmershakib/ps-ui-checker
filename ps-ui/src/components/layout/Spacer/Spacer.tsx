@@ -1,7 +1,6 @@
-import { resolveSpace } from "../../../utils/resolvers/resolve-space";
 import { forwardRef, memo, type CSSProperties } from "react";
-import { cn } from "../../../utils/class-names/cn";
 import type { SpacerProps } from "./Spacer.types";
+import { cn, resolveSpace } from "../../../utils";
 import "./Spacer.css";
 
 const Spacer = forwardRef<HTMLDivElement, SpacerProps>(

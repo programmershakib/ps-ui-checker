@@ -216,19 +216,19 @@
 }
 
 .ps-checkbox--radius-none .ps-checkbox__box {
-    border-radius: var(--ps-component-radius-none);
+    border-radius: var(--ps-radius-none);
 }
 .ps-checkbox--radius-sm .ps-checkbox__box {
-    border-radius: calc(var(--ps-component-radius-sm) * 0.6);
+    border-radius: calc(var(--ps-radius-sm) * 0.6);
 }
 .ps-checkbox--radius-md .ps-checkbox__box {
-    border-radius: calc(var(--ps-component-radius-md) * 0.65);
+    border-radius: calc(var(--ps-radius-md) * 0.65);
 }
 .ps-checkbox--radius-lg .ps-checkbox__box {
-    border-radius: calc(var(--ps-component-radius-lg) * 0.65);
+    border-radius: calc(var(--ps-radius-lg) * 0.65);
 }
 .ps-checkbox--radius-full .ps-checkbox__box {
-    border-radius: var(--ps-component-radius-full);
+    border-radius: var(--ps-radius-full);
 }
 
 .ps-checkbox__input:checked ~ .ps-checkbox__box {

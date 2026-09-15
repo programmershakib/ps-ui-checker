@@ -1,5 +1,11 @@
 import type { CSSProperties } from "react";
 
+export interface Base {
+    id?: string;
+    style?: CSSProperties;
+    className?: string;
+}
+
 export type Color =
     | "default"
     | "primary"
@@ -43,6 +49,16 @@ export type FontWeight =
 
 export type FontFamily = "sans" | "mono";
 
+export type LineHeight = "tight" | "normal" | "relaxed" | "loose";
+
+export type LetterSpacing =
+    | "tighter"
+    | "tight"
+    | "normal"
+    | "wide"
+    | "wider"
+    | "widest";
+
 export type Radius = "none" | "sm" | "md" | "lg" | "full";
 
 export type RadiusScale = Radius | "xs" | "xl" | "2xl" | "3xl" | "4xl";
@@ -62,9 +78,9 @@ export type Space =
     | "5xl"
     | "6xl";
 
-export type Shadow = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type Shadow = "none" | "sm" | "md" | "lg";
 
-export type Blur = "none" | "sm" | "md" | "lg" | "xl";
+export type Blur = "none" | "sm" | "md" | "lg";
 
 export type ZIndexLayer =
     | "sticky"
@@ -78,9 +94,3 @@ export type ZIndexLayer =
 export type Duration = "instant" | "fast" | "base" | "slow";
 
 export type Easing = "standard" | "spring";
-
-export interface Base {
-    id?: string;
-    style?: CSSProperties;
-    className?: string;
-}

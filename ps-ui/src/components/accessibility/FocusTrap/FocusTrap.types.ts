@@ -1,9 +1,10 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
-import type { Base } from "../../../types/common";
 import type {
+    Base,
     EscapeKeyDownEvent,
     FocusOutsideEvent,
-} from "../../../types/interaction";
+    ContainerLike,
+} from "../../../types";
 
 interface FocusTrapOwnProps extends Base {
     as?: ElementType;
@@ -16,6 +17,10 @@ interface FocusTrapOwnProps extends Base {
 
     initialFocus?: HTMLElement | (() => HTMLElement | null);
     fallbackFocus?: HTMLElement | (() => HTMLElement | null);
+
+    containers?: Array<ContainerLike>;
+
+    modal?: boolean;
 
     onActivate?: () => void;
     onDeactivate?: () => void;

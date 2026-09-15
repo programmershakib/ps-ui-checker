@@ -1,9 +1,4 @@
-export interface StackableFocusScope {
-    container: HTMLElement;
-    paused: boolean;
-    pause: () => void;
-    resume: () => void;
-}
+import type { StackableFocusScope } from "../../types";
 
 function arrayRemove<T>(array: T[], item: T): T[] {
     const copy = [...array];

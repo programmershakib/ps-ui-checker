@@ -5,7 +5,9 @@ import type {
     FontFamily,
     FontSize,
     FontWeight,
-} from "../../../types/common";
+    LetterSpacing,
+    LineHeight,
+} from "../../../types";
 
 type TextColor = ColorScale | "current" | (string & {});
 
@@ -15,13 +17,9 @@ type TextDecoration = "none" | "underline" | "line-through" | "overline";
 
 type TextTransform = "none" | "uppercase" | "lowercase" | "capitalize";
 
-type TextLineHeight =
-    | "tight"
-    | "normal"
-    | "relaxed"
-    | "loose"
-    | number
-    | (string & {});
+type TextLineHeight = LineHeight | number | (string & {});
+
+type TextLetterSpacing = LetterSpacing | number | (string & {});
 
 type TextWordBreak = "normal" | "break-all" | "keep-all" | "break-word";
 
@@ -39,7 +37,7 @@ interface TextOwnProps extends Base {
     textTransform?: TextTransform;
 
     lineHeight?: TextLineHeight;
-    letterSpacing?: string;
+    letterSpacing?: TextLetterSpacing;
 
     italic?: boolean;
 
@@ -50,6 +48,11 @@ interface TextOwnProps extends Base {
     whiteSpace?: TextWhiteSpace;
 
     children?: ReactNode;
+}
+
+export interface TextStyle<T extends string> {
+    token?: T;
+    inline?: string;
 }
 
 export type TextProps<C extends ElementType = "p"> = TextOwnProps & {

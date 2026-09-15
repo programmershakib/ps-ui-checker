@@ -1,4 +1,4 @@
-import type { Base, Color, Radius, Size } from "../../../types/common";
+import type { Base, Color, Radius, Size } from "../../../types";
 import type { InputHTMLAttributes, ReactNode } from "react";
 
 interface CheckboxClassNames {

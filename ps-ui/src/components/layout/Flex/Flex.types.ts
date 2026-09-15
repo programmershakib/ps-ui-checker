@@ -1,5 +1,5 @@
-import type { ElementType, HTMLAttributes, ReactNode } from "react";
-import type { Base, Space } from "../../../types/common";
+import type { ComponentPropsWithRef, ElementType, ReactNode } from "react";
+import type { Base, Space } from "../../../types";
 
 type FlexDirection = "row" | "row-reverse" | "column" | "column-reverse";
 
@@ -27,8 +27,6 @@ type FlexShrink = boolean | number;
 type FlexBasis = string | number;
 
 interface FlexOwnProps extends Base {
-    as?: ElementType;
-
     direction?: FlexDirection;
     align?: FlexAlign;
     justify?: FlexJustify;
@@ -48,7 +46,6 @@ interface FlexOwnProps extends Base {
     children?: ReactNode;
 }
 
-export interface FlexProps
-    extends
-        FlexOwnProps,
-        Omit<HTMLAttributes<HTMLElement>, keyof FlexOwnProps> {}
+export type FlexProps<C extends ElementType = "div"> = FlexOwnProps & {
+    as?: C;
+} & Omit<ComponentPropsWithRef<C>, keyof FlexOwnProps | "as">;

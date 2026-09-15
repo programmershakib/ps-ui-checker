@@ -77,13 +77,9 @@ function isSelectableInput(el: HTMLElement): el is HTMLInputElement {
     return el instanceof HTMLInputElement && typeof el.select === "function";
 }
 
-interface FocusFirstOptions {
-    select?: boolean;
-}
-
 export function focusFirst(
     candidates: Array<HTMLElement | null | undefined>,
-    options: FocusFirstOptions = {},
+    options: { select?: boolean } = {},
 ): boolean {
     const previouslyFocused = document.activeElement;
 

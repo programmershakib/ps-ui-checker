@@ -1,4 +1,4 @@
-import type { ElementType, HTMLAttributes, ReactNode } from "react";
+import type { ComponentPropsWithRef, ElementType, ReactNode } from "react";
 import type { Base, Color } from "../../../types/common";
 
 type Variant = "solid" | "dashed" | "dotted";
@@ -16,8 +16,6 @@ interface DividerClassNames {
 }
 
 interface DividerOwnProps extends Base {
-    as?: ElementType;
-
     orientation?: Orientation;
     variant?: Variant;
 
@@ -32,7 +30,6 @@ interface DividerOwnProps extends Base {
     classNames?: DividerClassNames;
 }
 
-export interface DividerProps
-    extends
-        DividerOwnProps,
-        Omit<HTMLAttributes<HTMLElement>, keyof DividerOwnProps> {}
+export type DividerProps<C extends ElementType = "div"> = DividerOwnProps & {
+    as?: C;
+} & Omit<ComponentPropsWithRef<C>, keyof DividerOwnProps | "as">;

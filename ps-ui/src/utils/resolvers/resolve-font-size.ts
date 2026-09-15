@@ -1,4 +1,4 @@
-import type { FontSize } from "../../types/common";
+import type { FontSize } from "../../types";
 
 const FONT_SIZE_TOKENS = new Set<FontSize>([
     "xs",

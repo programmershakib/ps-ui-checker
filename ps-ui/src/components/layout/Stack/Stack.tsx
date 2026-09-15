@@ -1,15 +1,16 @@
+import type { ElementType, ReactElement, Ref } from "react";
 import type { StackProps } from "./Stack.types";
-import { forwardRef, memo } from "react";
+import { forwardRef } from "react";
 import { Flex } from "../Flex";
 
-const Stack = forwardRef<HTMLElement, StackProps>(
-    ({ direction = "column", ...rest }, ref) => {
-        return <Flex {...rest} ref={ref} direction={direction} />;
-    },
-);
+function StackRender(props: StackProps, ref?: Ref<HTMLDivElement>) {
+    return <Flex {...props} ref={ref} direction="column" />;
+}
 
-const MemoizedStack = memo(Stack);
+const Stack = forwardRef(StackRender) as <C extends ElementType = "div">(
+    props: StackProps<C>,
+) => ReactElement | null;
 
-MemoizedStack.displayName = "Stack";
+(Stack as unknown as { displayName: string }).displayName = "Stack";
 
-export default MemoizedStack;
+export default Stack;

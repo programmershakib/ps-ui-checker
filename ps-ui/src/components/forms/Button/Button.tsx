@@ -1,11 +1,11 @@
 "use client";
 
-import { cn } from "../../../utils/class-names/cn";
 import type { ButtonProps } from "./Button.types";
 import { Spinner } from "../../feedback/Spinner";
 import { buttonRecipe } from "./Button.recipe";
 import { Ripple } from "../../effects/Ripple";
 import { forwardRef, memo } from "react";
+import { cn } from "../../../utils";
 import "./Button.css";
 
 function resolveSpinnerSize(size: ButtonProps["size"]): number {

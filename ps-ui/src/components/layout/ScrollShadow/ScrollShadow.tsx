@@ -1,9 +1,15 @@
 "use client";
 
-import type { ScrollShadowProps } from "./ScrollShadow.types";
 import { scrollShadowRecipe } from "./ScrollShadow.recipe";
-import { cn } from "../../../utils/class-names/cn";
+import { useComposedRefs } from "../../../hooks";
+import { cn } from "../../../utils";
 import "./ScrollShadow.css";
+import type {
+    ScrollShadowProps,
+    ScrollShadowSize,
+    Visibility,
+    VisibilityEdge,
+} from "./ScrollShadow.types";
 import {
     forwardRef,
     memo,
@@ -11,27 +17,22 @@ import {
     useEffect,
     useRef,
     useState,
+    type CSSProperties,
 } from "react";
-
-type Edge = "top" | "bottom" | "left" | "right";
-type Visibility =
-    | "auto"
-    | "both"
-    | "top"
-    | "bottom"
-    | "left"
-    | "right"
-    | "none";
 
 const DEFAULT_SIZE = 40;
 const DEFAULT_OFFSET = 0;
+
+function resolveSize(value: ScrollShadowSize): string {
+    return typeof value === "number" ? `${value}px` : value;
+}
 
 function computeEdges(
     el: HTMLElement,
     orientation: "vertical" | "horizontal",
     offset: number,
-): Set<Edge> {
-    const edges = new Set<Edge>();
+): Set<VisibilityEdge> {
+    const edges = new Set<VisibilityEdge>();
     if (orientation === "vertical") {
         if (el.scrollTop > offset) edges.add("top");
         if (el.scrollTop + el.clientHeight < el.scrollHeight - offset) {
@@ -47,7 +48,7 @@ function computeEdges(
 }
 
 function edgesToVisibility(
-    edges: Set<Edge>,
+    edges: Set<VisibilityEdge>,
     orientation: "vertical" | "horizontal",
 ): Visibility {
     const [a, b] =
@@ -65,14 +66,22 @@ function edgesToVisibility(
 function forcedToEdges(
     visibility: Exclude<Visibility, "auto">,
     orientation: "vertical" | "horizontal",
-): Set<Edge> {
+): Set<VisibilityEdge> {
     if (visibility === "none") return new Set();
     if (visibility === "both") {
         return orientation === "vertical"
-            ? new Set<Edge>(["top", "bottom"])
-            : new Set<Edge>(["left", "right"]);
+            ? new Set<VisibilityEdge>(["top", "bottom"])
+            : new Set<VisibilityEdge>(["left", "right"]);
     }
-    return new Set<Edge>([visibility as Edge]);
+    return new Set<VisibilityEdge>([visibility as VisibilityEdge]);
+}
+
+function hasSameEdges(a: Set<VisibilityEdge>, b: Set<VisibilityEdge>): boolean {
+    if (a.size !== b.size) return false;
+    for (const edge of a) {
+        if (!b.has(edge)) return false;
+    }
+    return true;
 }
 
 const ScrollShadow = forwardRef<HTMLDivElement, ScrollShadowProps>(
@@ -83,8 +92,12 @@ const ScrollShadow = forwardRef<HTMLDivElement, ScrollShadowProps>(
             className,
             classNames,
             orientation = "vertical",
+            variant = "default",
             size = DEFAULT_SIZE,
+            scrollbarSize,
             offset = DEFAULT_OFFSET,
+            barColor,
+            arrowColor,
             hideScrollBar = false,
             enabled = true,
             visibility = "auto",
@@ -95,15 +108,11 @@ const ScrollShadow = forwardRef<HTMLDivElement, ScrollShadowProps>(
         ref,
     ) => {
         const contentRef = useRef<HTMLDivElement>(null);
-        const [edges, setEdges] = useState<Set<Edge>>(new Set());
+        const composedRefs = useComposedRefs(ref, contentRef);
+        const [edges, setEdges] = useState<Set<VisibilityEdge>>(new Set());
         const rafRef = useRef<number | undefined>(undefined);
         const lastReportedRef = useRef<Visibility | null>(null);
-
-        const setRefs = (node: HTMLDivElement | null) => {
-            contentRef.current = node;
-            if (typeof ref === "function") ref(node);
-            else if (ref) ref.current = node;
-        };
+        const lastEdgesRef = useRef<Set<VisibilityEdge>>(new Set());
 
         const report = useCallback(
             (next: Visibility) => {
@@ -118,18 +127,25 @@ const ScrollShadow = forwardRef<HTMLDivElement, ScrollShadowProps>(
             const el = contentRef.current;
             if (!el) return;
             const next = computeEdges(el, orientation, offset);
-            setEdges(next);
+            if (!hasSameEdges(lastEdgesRef.current, next)) {
+                lastEdgesRef.current = next;
+                setEdges(next);
+            }
             report(edgesToVisibility(next, orientation));
         }, [orientation, offset, report]);
 
         useEffect(() => {
             if (!enabled) {
-                setEdges(new Set());
+                const reset = new Set<VisibilityEdge>();
+                lastEdgesRef.current = reset;
+                setEdges(reset);
+                report("none");
                 return;
             }
 
             if (visibility !== "auto") {
                 const forced = forcedToEdges(visibility, orientation);
+                lastEdgesRef.current = forced;
                 setEdges(forced);
                 report(visibility);
                 return;
@@ -138,7 +154,7 @@ const ScrollShadow = forwardRef<HTMLDivElement, ScrollShadowProps>(
             const el = contentRef.current;
             if (!el) return;
 
-            const handleScroll = () => {
+            const scheduleMeasure = () => {
                 if (rafRef.current !== undefined) return;
                 rafRef.current = requestAnimationFrame(() => {
                     rafRef.current = undefined;
@@ -146,37 +162,73 @@ const ScrollShadow = forwardRef<HTMLDivElement, ScrollShadowProps>(
                 });
             };
 
-            measure();
-            el.addEventListener("scroll", handleScroll, { passive: true });
-
-            const resizeObserver = new ResizeObserver(measure);
+            const resizeObserver = new ResizeObserver(scheduleMeasure);
             resizeObserver.observe(el);
+            for (const child of el.children) {
+                resizeObserver.observe(child);
+            }
+            measure();
+
+            const mutationObserver = new MutationObserver((mutations) => {
+                for (const mutation of mutations) {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node instanceof HTMLElement) {
+                            resizeObserver.observe(node);
+                        }
+                    });
+                    mutation.removedNodes.forEach((node) => {
+                        if (node instanceof HTMLElement) {
+                            resizeObserver.unobserve(node);
+                        }
+                    });
+                }
+                scheduleMeasure();
+            });
+            mutationObserver.observe(el, { childList: true });
+
+            el.addEventListener("scroll", scheduleMeasure, { passive: true });
 
             return () => {
-                el.removeEventListener("scroll", handleScroll);
+                el.removeEventListener("scroll", scheduleMeasure);
                 resizeObserver.disconnect();
+                mutationObserver.disconnect();
                 if (rafRef.current !== undefined) {
                     cancelAnimationFrame(rafRef.current);
+                    rafRef.current = undefined;
                 }
             };
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [enabled, visibility, orientation, offset, measure]);
 
-        const shadowSize = typeof size === "number" ? `${size}px` : size;
+        const shadowSize = resolveSize(size);
+
+        const resolvedScrollbarSize = hideScrollBar
+            ? "0px"
+            : resolveSize(scrollbarSize ?? (variant === "minimal" ? 8 : 10));
+
+        const scrollCssVars = {
+            "--ps-scroll-shadow-scrollbar-size": resolvedScrollbarSize,
+            ...(barColor !== undefined && {
+                "--ps-scroll-shadow-thumb": barColor,
+            }),
+            ...(arrowColor !== undefined && {
+                "--ps-scroll-shadow-arrow": arrowColor,
+            }),
+        } as CSSProperties;
 
         return (
             <div
                 id={id}
-                style={style}
+                style={{ ...style, ...scrollCssVars }}
                 className={cn(
-                    scrollShadowRecipe({ orientation }),
+                    scrollShadowRecipe({ orientation, variant }),
                     className,
                     classNames?.base,
                 )}
             >
                 <div
                     {...rest}
-                    ref={setRefs}
+                    ref={composedRefs}
                     className={cn(
                         "ps-scroll-shadow__content",
                         hideScrollBar &&

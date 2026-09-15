@@ -1,1 +1,1 @@
-# ps-ui architecture
+# PS UI ARCHITECTURE

@@ -1,9 +1,8 @@
 "use client";
 
-import { resolveColor } from "../../../utils/resolvers/resolve-color";
 import { memo, useId, type CSSProperties } from "react";
 import type { SpinnerProps } from "./Spinner.types";
-import { cn } from "../../../utils/class-names/cn";
+import { cn, resolveColor } from "../../../utils";
 import type { Size } from "../../../types/common";
 import { spinnerRecipe } from "./Spinner.recipe";
 import "./Spinner.css";

@@ -1,5 +1,5 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
-import type { Base } from "../../../types/common";
+import type { Base } from "../../../types";
 
 interface VisuallyHiddenOwnProps extends Base {
     as?: ElementType;

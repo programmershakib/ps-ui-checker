@@ -1,11 +1,11 @@
 "use client";
 
-import { useControllableState } from "../../../hooks/state/useControllableState";
 import { useRadioGroupContext } from "./RadioGroup.context";
-import { cn } from "../../../utils/class-names/cn";
+import { useControllableState } from "../../../hooks";
 import { forwardRef, memo, useId } from "react";
 import type { RadioProps } from "./Radio.types";
 import { radioRecipe } from "./Radio.recipe";
+import { cn } from "../../../utils";
 import "./Radio.css";
 
 const Radio = forwardRef<HTMLInputElement, RadioProps>(

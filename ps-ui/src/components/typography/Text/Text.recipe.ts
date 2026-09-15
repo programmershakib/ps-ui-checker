@@ -1,8 +1,23 @@
-import { createRecipe } from "../../../system/create-recipe";
+import { createRecipe } from "../../../system";
 
 export const textRecipe = createRecipe({
     base: "ps-text",
     variants: {
+        color: {
+            default: "ps-text--color-default",
+            primary: "ps-text--color-primary",
+            secondary: "ps-text--color-secondary",
+            success: "ps-text--color-success",
+            warning: "ps-text--color-warning",
+            error: "ps-text--color-error",
+            white: "ps-text--color-white",
+            black: "ps-text--color-black",
+            background: "ps-text--color-background",
+            foreground: "ps-text--color-foreground",
+            muted: "ps-text--color-muted",
+            subtle: "ps-text--color-subtle",
+            disabled: "ps-text--color-disabled",
+        },
         size: {
             xs: "ps-text--size-xs",
             sm: "ps-text--size-sm",
@@ -29,6 +44,20 @@ export const textRecipe = createRecipe({
         family: {
             sans: "",
             mono: "ps-text--family-mono",
+        },
+        lineHeight: {
+            tight: "ps-text--line-height-tight",
+            normal: "ps-text--line-height-normal",
+            relaxed: "ps-text--line-height-relaxed",
+            loose: "ps-text--line-height-loose",
+        },
+        letterSpacing: {
+            tighter: "ps-text--letter-spacing-tighter",
+            tight: "ps-text--letter-spacing-tight",
+            normal: "ps-text--letter-spacing-normal",
+            wide: "ps-text--letter-spacing-wide",
+            wider: "ps-text--letter-spacing-wider",
+            widest: "ps-text--letter-spacing-widest",
         },
         align: {
             left: "ps-text--align-left",

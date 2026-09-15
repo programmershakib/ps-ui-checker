@@ -1,4 +1,4 @@
-import type { ColorScale } from "../../types/common";
+import type { ColorScale } from "../../types";
 
 const COLOR_TOKENS = new Set<ColorScale>([
     "default",
@@ -20,8 +20,11 @@ export function isColorToken(value: unknown): value is ColorScale {
     return typeof value === "string" && COLOR_TOKENS.has(value as ColorScale);
 }
 
-export function resolveColor(color: string): string {
-    if (color === "current") return "currentColor";
-    if (isColorToken(color)) return `var(--ps-${color})`;
-    return color;
+export function resolveColor(
+    value: ColorScale | "current" | (string & {}) | undefined,
+): string | undefined {
+    if (value === undefined) return undefined;
+    if (value === "current") return "currentColor";
+    if (isColorToken(value)) return `var(--ps-${value})`;
+    return value;
 }

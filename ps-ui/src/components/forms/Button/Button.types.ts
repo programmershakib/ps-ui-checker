@@ -1,5 +1,5 @@
 import type { SpinnerVariant } from "../../feedback/Spinner/Spinner.types";
-import type { Base, Color, Radius, Size } from "../../../types/common";
+import type { Base, Color, Radius, Size } from "../../../types";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type ButtonVariant =

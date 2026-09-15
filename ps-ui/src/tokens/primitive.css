@@ -100,15 +100,27 @@
     --ps-primitive-font-family-mono:
         ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
+    --ps-primitive-line-height-tight: 1.25;
+    --ps-primitive-line-height-normal: 1.5;
+    --ps-primitive-line-height-relaxed: 1.625;
+    --ps-primitive-line-height-loose: 2;
+
+    --ps-primitive-letter-spacing-tighter: -0.05em;
+    --ps-primitive-letter-spacing-tight: -0.025em;
+    --ps-primitive-letter-spacing-normal: 0;
+    --ps-primitive-letter-spacing-wide: 0.025em;
+    --ps-primitive-letter-spacing-wider: 0.05em;
+    --ps-primitive-letter-spacing-widest: 0.1em;
+
     /* ---- raw radius ---- */
     --ps-primitive-radius-none: 0px;
-    --ps-primitive-radius-xs: 2px;
-    --ps-primitive-radius-sm: 4px;
-    --ps-primitive-radius-md: 6px;
-    --ps-primitive-radius-lg: 8px;
-    --ps-primitive-radius-xl: 12px;
-    --ps-primitive-radius-2xl: 16px;
-    --ps-primitive-radius-3xl: 24px;
+    --ps-primitive-radius-xs: 4px;
+    --ps-primitive-radius-sm: 8px;
+    --ps-primitive-radius-md: 12px;
+    --ps-primitive-radius-lg: 16px;
+    --ps-primitive-radius-xl: 20px;
+    --ps-primitive-radius-2xl: 24px;
+    --ps-primitive-radius-3xl: 28px;
     --ps-primitive-radius-4xl: 32px;
     --ps-primitive-radius-full: 9999px;
 
@@ -135,19 +147,15 @@
 
     /* ---- raw shadow ---- */
     --ps-primitive-shadow-none: none;
-    --ps-primitive-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
-    --ps-primitive-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.1);
-    --ps-primitive-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.14);
-    --ps-primitive-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.16);
-    --ps-primitive-shadow-xl: 0 8px 28px rgba(0, 0, 0, 0.18);
-    --ps-primitive-shadow-2xl: 0 16px 48px rgba(0, 0, 0, 0.22);
+    --ps-primitive-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --ps-primitive-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.14);
+    --ps-primitive-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.18);
 
     /* ---- raw blur — backdrop-filter amount ---- */
     --ps-primitive-blur-none: 0px;
     --ps-primitive-blur-sm: 4px;
     --ps-primitive-blur-md: 8px;
     --ps-primitive-blur-lg: 16px;
-    --ps-primitive-blur-xl: 24px;
 
     /* ---- raw duration ---- */
     --ps-primitive-duration-instant: 100ms;

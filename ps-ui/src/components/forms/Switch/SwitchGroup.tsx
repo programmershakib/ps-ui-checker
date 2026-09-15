@@ -1,13 +1,12 @@
 "use client";
 
-import { useControllableState } from "../../../hooks/state/useControllableState";
-import { useGroupValidation } from "../../../hooks/state/useGroupValidation";
+import { useControllableState, useGroupValidation } from "../../../hooks";
 import type { SwitchGroupProps } from "./SwitchGroup.types";
 import { SwitchGroupContext } from "./SwitchGroup.context";
-import { cn } from "../../../utils/class-names/cn";
 import { forwardRef, memo, useId } from "react";
 import { Text } from "../../typography/Text";
 import { Flex } from "../../layout/Flex";
+import { cn } from "../../../utils";
 import "./SwitchGroup.css";
 
 const SwitchGroup = forwardRef<HTMLDivElement, SwitchGroupProps>(
