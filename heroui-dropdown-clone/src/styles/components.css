@@ -1,0 +1,1091 @@
+/* =============================================================================
+ * COMPONENTS — hand-ported from HeroUI v3 packages/styles/components/*.css
+ *
+ * Every Tailwind `@apply` from the original files is expanded into plain CSS.
+ * Class names, BEM structure and data-attributes are kept 1:1 with HeroUI so
+ * the rendered DOM matches the real library.
+ * ============================================================================= */
+
+@layer components {
+  /* ---------------------------------------------------------------------------
+   * Status utilities (packages/styles/utilities/index.css)
+   * ------------------------------------------------------------------------- */
+
+  /* focus-ring: ring-2 ring-focus ring-offset-0 outline-none (+ --ring-offset-width) */
+  .status-focused {
+    outline: none;
+    border-radius: inherit;
+    box-shadow:
+      0 0 0 var(--ring-offset-width) var(--background),
+      0 0 0 calc(var(--ring-offset-width) + 2px) var(--focus);
+  }
+
+  /* status-disabled */
+  .status-disabled {
+    opacity: var(--disabled-opacity);
+    cursor: var(--cursor-disabled);
+    pointer-events: none;
+  }
+
+  /* status-pending */
+  .status-pending {
+    pointer-events: none;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Surface — packages/styles/components/surface.css
+   * ------------------------------------------------------------------------- */
+
+  .surface {
+    position: relative;
+    color: var(--foreground);
+  }
+
+  .surface--transparent {
+    background-color: transparent;
+  }
+
+  .surface--default {
+    background-color: var(--surface);
+    color: var(--surface-foreground);
+  }
+
+  .surface--secondary {
+    background-color: var(--surface-secondary);
+    color: var(--surface-secondary-foreground);
+  }
+
+  .surface--tertiary {
+    background-color: var(--surface-tertiary);
+    color: var(--surface-tertiary-foreground);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Button — packages/styles/components/button.css
+   * ------------------------------------------------------------------------- */
+
+  .button {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    height: calc(var(--spacing) * 10); /* h-10 = 40px */
+    width: fit-content;
+    transform-origin: center;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--spacing) * 2); /* gap-2 = 8px */
+    border-radius: var(--radius-3xl); /* rounded-3xl = 24px */
+    padding-inline: calc(var(--spacing) * 4); /* px-4 = 16px */
+    font-size: 0.875rem; /* text-sm */
+    line-height: calc(1.25 / 0.875);
+    font-weight: 500; /* font-medium */
+    white-space: nowrap;
+    outline: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* no-highlight */
+
+    transition:
+      transform 250ms var(--ease-smooth),
+      background-color 100ms var(--ease-out),
+      box-shadow 100ms var(--ease-out);
+    transform: translateZ(0); /* transform-gpu */
+
+    cursor: var(--cursor-interactive);
+
+    /* Default tokens (fallback behaviour) */
+    --button-bg: transparent;
+    --button-bg-hover: var(--button-bg);
+    --button-bg-pressed: var(--button-bg-hover);
+    --button-fg: currentColor;
+
+    background-color: var(--button-bg);
+    color: var(--button-fg);
+  }
+
+  .button:focus-visible,
+  .button[data-focus-visible="true"] {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--ring-offset-width) var(--background),
+      0 0 0 calc(var(--ring-offset-width) + 2px) var(--focus);
+  }
+
+  .button:disabled,
+  .button[aria-disabled="true"] {
+    opacity: var(--disabled-opacity);
+    cursor: var(--cursor-disabled);
+    pointer-events: none;
+  }
+
+  .button[data-pending="true"] {
+    pointer-events: none;
+  }
+
+  .button:active,
+  .button[data-pressed="true"] {
+    will-change: transform;
+    background-color: var(--button-bg-pressed);
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) {
+    .button:hover,
+    .button[data-hovered="true"] {
+      background-color: var(--button-bg-hover);
+    }
+  }
+
+  .button svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+    pointer-events: none;
+    margin-inline: calc(var(--spacing) * -0.5); /* -mx-0.5 = -2px */
+    margin-block: calc(var(--spacing) * 0.5); /* my-0.5 = 2px */
+    width: calc(var(--spacing) * 5); /* size-5 = 20px */
+    height: calc(var(--spacing) * 5);
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  /* Size variants */
+  .button--sm {
+    height: calc(var(--spacing) * 9); /* h-9 = 36px */
+    padding-inline: calc(var(--spacing) * 3); /* px-3 = 12px */
+  }
+
+  .button--sm svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+    width: calc(var(--spacing) * 4); /* size-4 = 16px */
+    height: calc(var(--spacing) * 4);
+  }
+
+  .button--sm:active,
+  .button--sm[data-pressed="true"] {
+    transform: scale(0.98);
+  }
+
+  /* .button--md — no styles, it is the default size */
+
+  .button--lg {
+    height: calc(var(--spacing) * 11); /* h-11 = 44px */
+    font-size: 1rem; /* text-base */
+    line-height: calc(1.5 / 1);
+  }
+
+  .button--lg:active,
+  .button--lg[data-pressed="true"] {
+    transform: scale(0.96);
+  }
+
+  /* Color variants — only set custom property values */
+  .button--primary {
+    --button-bg: var(--accent);
+    --button-bg-hover: var(--accent-hover);
+    --button-bg-pressed: var(--accent-hover);
+    --button-fg: var(--accent-foreground);
+  }
+
+  .button--secondary {
+    --button-bg: var(--default);
+    --button-bg-hover: var(--default-hover);
+    --button-bg-pressed: var(--default-hover);
+    --button-fg: var(--accent-soft-foreground);
+  }
+
+  .button--tertiary {
+    --button-bg: var(--default);
+    --button-bg-hover: var(--default-hover);
+    --button-bg-pressed: var(--default-hover);
+  }
+
+  .button--ghost,
+  .button--outline {
+    --button-bg: transparent;
+    --button-bg-hover: var(--default);
+    --button-bg-pressed: var(--default);
+    --button-fg: var(--default-foreground);
+  }
+
+  .button--outline {
+    border-width: var(--border-width);
+    border-style: solid;
+    border-color: var(--border);
+    --button-bg-hover: color-mix(in srgb, var(--default) 60%, transparent);
+  }
+
+  .button--danger {
+    --button-bg: var(--danger);
+    --button-bg-hover: var(--danger-hover);
+    --button-bg-pressed: var(--danger-hover);
+    --button-fg: var(--danger-foreground);
+  }
+
+  .button--danger-soft {
+    --button-bg: var(--danger-soft);
+    --button-bg-hover: var(--danger-soft-hover);
+    --button-bg-pressed: var(--danger-soft-hover);
+    --button-fg: var(--danger-soft-foreground);
+  }
+
+  /* Icon-only modifier */
+  .button--icon-only {
+    width: calc(var(--spacing) * 10); /* w-10 = 40px */
+    padding: 0;
+  }
+
+  .button--icon-only.button--sm {
+    width: calc(var(--spacing) * 9);
+  }
+
+  .button--icon-only.button--lg {
+    width: calc(var(--spacing) * 11);
+  }
+
+  .button--full-width {
+    width: 100%;
+  }
+
+  /* md: breakpoint — mobile-first overrides from button.css */
+  @media (width >= 48rem) {
+    .button {
+      height: calc(var(--spacing) * 9); /* md:h-9 = 36px */
+    }
+
+    .button svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+      margin-block: calc(var(--spacing) * 1); /* sm:my-1 = 4px */
+      width: calc(var(--spacing) * 4); /* sm:size-4 = 16px */
+      height: calc(var(--spacing) * 4);
+    }
+
+    .button--sm {
+      height: calc(var(--spacing) * 8); /* md:h-8 = 32px */
+    }
+
+    .button--lg {
+      height: calc(var(--spacing) * 10); /* md:h-10 = 40px */
+    }
+
+    .button--icon-only {
+      width: calc(var(--spacing) * 9); /* md:w-9 = 36px */
+    }
+
+    .button--icon-only.button--sm {
+      width: calc(var(--spacing) * 8); /* md:w-8 = 32px */
+    }
+
+    .button--icon-only.button--lg {
+      width: calc(var(--spacing) * 10); /* md:w-10 = 40px */
+    }
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Label — packages/styles/components/label.css
+   * ------------------------------------------------------------------------- */
+
+  .label {
+    font-size: 0.875rem; /* text-sm */
+    line-height: calc(1.25 / 0.875);
+    font-weight: 500; /* font-medium */
+    color: var(--foreground);
+  }
+
+  .label--required::after,
+  [data-required="true"]:not([role="group"]):not([role="radiogroup"]):not(
+      [role="checkboxgroup"]
+    )
+    > .label::after,
+  [data-required="true"]:not([data-slot="radio"]):not([data-slot="checkbox"])
+    > .label::after {
+    margin-inline-start: calc(var(--spacing) * 0.5); /* after:ms-0.5 */
+    color: var(--danger);
+    content: "*";
+  }
+
+  .label--disabled,
+  [data-disabled="true"] .label {
+    opacity: var(--disabled-opacity);
+    cursor: var(--cursor-disabled);
+    pointer-events: none;
+  }
+
+  .label--invalid,
+  [data-invalid="true"] .label,
+  [aria-invalid="true"] .label {
+    color: var(--danger);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Description — packages/styles/components/description.css
+   * ------------------------------------------------------------------------- */
+
+  .description {
+    font-size: 0.75rem; /* text-xs */
+    line-height: calc(1 / 0.75);
+    text-wrap: wrap;
+    overflow-wrap: break-word; /* wrap-break-word */
+    color: var(--muted);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Header — packages/styles/components/header.css
+   * ------------------------------------------------------------------------- */
+
+  .header {
+    width: 100%;
+    padding-inline: calc(var(--spacing) * 2); /* px-2 = 8px */
+    padding-top: calc(var(--spacing) * 1.5); /* pt-1.5 = 6px */
+    padding-bottom: calc(var(--spacing) * 1); /* pb-1 = 4px */
+    text-align: start;
+    font-size: 0.75rem; /* text-xs */
+    line-height: calc(1 / 0.75);
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Kbd — packages/styles/components/kbd.css
+   * ------------------------------------------------------------------------- */
+
+  .kbd {
+    display: inline-flex;
+    height: calc(var(--spacing) * 6); /* h-6 = 24px */
+    align-items: center;
+    border-radius: var(--radius-lg); /* rounded-lg = 8px */
+    background-color: var(--default);
+    padding-inline: calc(var(--spacing) * 2); /* px-2 = 8px */
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.875rem; /* text-sm */
+    line-height: calc(1.25 / 0.875);
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--muted);
+    word-spacing: -0.25rem;
+  }
+
+  /* space-x-0.5 = 2px between children */
+  .kbd > :not(:last-child) {
+    margin-inline-end: calc(var(--spacing) * 0.5);
+  }
+
+  .kbd__abbr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  .kbd__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .kbd--light {
+    background-color: transparent;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Separator — packages/styles/components/separator.css
+   * ------------------------------------------------------------------------- */
+
+  .separator {
+    flex-shrink: 0;
+    border-radius: var(--radius-sm); /* rounded-sm = 4px */
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: var(--separator);
+    height: 1px;
+    width: 100%;
+  }
+
+  .separator--horizontal {
+    height: 1px;
+    width: 100%;
+  }
+
+  .separator--vertical {
+    height: auto;
+    min-height: calc(var(--spacing) * 2); /* min-h-2 = 8px */
+    width: 1px;
+    align-self: stretch;
+  }
+
+  .separator--default {
+    background-color: var(--separator);
+  }
+
+  .separator--secondary {
+    background-color: var(--separator-secondary);
+  }
+
+  .separator--tertiary {
+    background-color: var(--separator-tertiary);
+  }
+
+  .separator__container {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing) * 3);
+  }
+
+  .separator__container--horizontal {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .separator__container--vertical {
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .separator__line {
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
+
+  .separator__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--muted);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Avatar — packages/styles/components/avatar.css
+   * ------------------------------------------------------------------------- */
+
+  .avatar {
+    position: relative;
+    display: flex;
+    width: calc(var(--spacing) * 10); /* size-10 = 40px */
+    height: calc(var(--spacing) * 10);
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--radius-3xl); /* rounded-3xl = 24px */
+    background-color: var(--default);
+  }
+
+  .avatar__fallback {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--default);
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    font-weight: 500;
+  }
+
+  .avatar__image {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 250ms;
+  }
+
+  .avatar--sm {
+    width: calc(var(--spacing) * 8); /* size-8 = 32px */
+    height: calc(var(--spacing) * 8);
+    border-radius: var(--radius-2xl); /* rounded-2xl = 16px */
+  }
+
+  /* .avatar--md — default size, no styles */
+
+  .avatar--lg {
+    width: calc(var(--spacing) * 12); /* size-12 = 48px */
+    height: calc(var(--spacing) * 12);
+    border-radius: var(--radius-3xl);
+  }
+
+  .avatar--lg .avatar__fallback {
+    font-size: 1rem;
+    line-height: calc(1.5 / 1);
+  }
+
+  .avatar__fallback--accent {
+    color: var(--accent-soft-foreground);
+  }
+
+  .avatar__fallback--default {
+    color: var(--default-soft-foreground);
+  }
+
+  .avatar__fallback--success {
+    color: var(--success-soft-foreground);
+  }
+
+  .avatar__fallback--warning {
+    color: var(--warning-soft-foreground);
+  }
+
+  .avatar__fallback--danger {
+    color: var(--danger-soft-foreground);
+  }
+
+  .avatar--soft {
+    background-color: transparent;
+  }
+
+  .avatar--soft .avatar__fallback--accent {
+    background-color: var(--accent-soft);
+    color: var(--accent-soft-foreground);
+  }
+
+  .avatar--soft .avatar__fallback--success {
+    background-color: var(--success-soft);
+    color: var(--success-soft-foreground);
+  }
+
+  .avatar--soft .avatar__fallback--warning {
+    background-color: var(--warning-soft);
+    color: var(--warning-soft-foreground);
+  }
+
+  .avatar--soft .avatar__fallback--default {
+    background-color: var(--default-soft);
+    color: var(--default-soft-foreground);
+  }
+
+  .avatar--soft .avatar__fallback--danger {
+    background-color: var(--danger-soft);
+    color: var(--danger-soft-foreground);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Menu — packages/styles/components/menu.css
+   * ------------------------------------------------------------------------- */
+
+  .menu {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 1); /* gap-1 = 4px */
+    overflow: clip;
+    padding: calc(var(--spacing) * 1); /* p-1 = 4px */
+  }
+
+  /* Makes the separator take up 94% of the width and be centred */
+  .menu [data-slot="separator"] {
+    margin-inline-start: 3%;
+    width: 94%;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Menu section — packages/styles/components/menu-section.css
+   * ------------------------------------------------------------------------- */
+
+  .menu-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Menu item — packages/styles/components/menu-item.css
+   * ------------------------------------------------------------------------- */
+
+  .menu-item {
+    position: relative;
+    display: flex;
+    min-height: calc(var(--spacing) * 9); /* min-h-9 = 36px */
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    gap: calc(var(--spacing) * 3); /* gap-3 = 12px */
+    border-radius: var(--radius-2xl); /* rounded-2xl = 16px */
+    padding-inline: calc(var(--spacing) * 2); /* px-2 = 8px */
+    padding-block: calc(var(--spacing) * 1.5); /* py-1.5 = 6px */
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* no-highlight */
+
+    transition:
+      transform 250ms var(--ease-out-quart),
+      box-shadow 150ms var(--ease-out);
+
+    cursor: var(--cursor-interactive);
+  }
+
+  .menu-item [data-slot="label"] {
+    pointer-events: none;
+    width: fit-content;
+    user-select: none;
+  }
+
+  .menu-item [data-slot="description"] {
+    pointer-events: none;
+    text-wrap: wrap;
+    user-select: none;
+  }
+
+  .menu-item [data-slot="submenu-indicator"] svg {
+    width: calc(var(--spacing) * 3.5); /* size-3.5 = 14px */
+    height: calc(var(--spacing) * 3.5);
+  }
+
+  /* Add inline-start padding when an indicator is present */
+  .menu-item:has(.menu-item__indicator) {
+    padding-inline-start: calc(var(--spacing) * 7); /* ps-7 = 28px */
+  }
+
+  /* …and inline-end padding when it also has a submenu */
+  .menu-item[data-has-submenu="true"]:has(.menu-item__indicator) {
+    padding-inline-start: calc(var(--spacing) * 2); /* ps-2 = 8px */
+    padding-inline-end: calc(var(--spacing) * 7); /* pe-7 = 28px */
+  }
+
+  .menu-item:focus-visible,
+  .menu-item[data-focus-visible="true"] {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--ring-offset-width) var(--background),
+      0 0 0 calc(var(--ring-offset-width) + 2px) var(--focus);
+  }
+
+  .menu-item:active,
+  .menu-item[data-pressed="true"] {
+    will-change: transform;
+    transform: scale(0.98);
+  }
+
+  @media (hover: hover) {
+    .menu-item:hover,
+    .menu-item[data-hovered="true"] {
+      background-color: var(--default);
+    }
+  }
+
+  /* Selected state */
+  .menu-item[aria-checked="true"] [data-slot="menu-item-indicator--checkmark"],
+  .menu-item[aria-selected="true"] [data-slot="menu-item-indicator--checkmark"],
+  .menu-item[data-selected="true"] [data-slot="menu-item-indicator--checkmark"] {
+    transition: stroke-dashoffset 100ms linear;
+  }
+
+  .menu-item[aria-checked="true"] [data-slot="menu-item-indicator--dot"],
+  .menu-item[aria-selected="true"] [data-slot="menu-item-indicator--dot"],
+  .menu-item[data-selected="true"] [data-slot="menu-item-indicator--dot"] {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .menu-item[data-disabled="true"] {
+    opacity: var(--disabled-opacity);
+    cursor: var(--cursor-disabled);
+    pointer-events: none;
+  }
+
+  /* Menu item indicator */
+  .menu-item__indicator {
+    position: absolute;
+    inset-inline-start: calc(var(--spacing) * 2); /* start-2 = 8px */
+    top: 50%;
+    display: flex;
+    width: calc(var(--spacing) * 4); /* size-4 = 16px */
+    height: calc(var(--spacing) * 4);
+    flex-shrink: 0;
+    transform: translateY(-50%);
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Position on the inline-end when the menu item has a submenu */
+  .menu-item[data-has-submenu="true"] .menu-item__indicator {
+    inset-inline-start: auto;
+    inset-inline-end: calc(var(--spacing) * 2); /* end-2 = 8px */
+  }
+
+  .menu-item__indicator [data-slot="menu-item-indicator--checkmark"] {
+    width: calc(var(--spacing) * 2.5); /* size-2.5 = 10px */
+    height: calc(var(--spacing) * 2.5);
+  }
+
+  .menu-item[data-selection-mode="multiple"]
+    .menu-item__indicator
+    [data-slot="menu-item-indicator--checkmark"] {
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .menu-item__indicator [data-slot="menu-item-indicator--dot"] {
+    width: calc(var(--spacing) * 2); /* size-2 = 8px */
+    height: calc(var(--spacing) * 2);
+    /* Default state: hidden and scaled down */
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  .menu-item[data-selection-mode="multiple"]
+    .menu-item__indicator
+    [data-slot="menu-item-indicator--dot"] {
+    transition-property: all;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Submenu indicator (chevron-right) */
+  .menu-item__indicator--submenu {
+    color: var(--muted);
+  }
+
+  .menu-item__indicator--submenu svg {
+    width: calc(var(--spacing) * 3); /* size-3 = 12px */
+    height: calc(var(--spacing) * 3);
+  }
+
+  /* .menu-item--default — no styles */
+
+  /* Danger variant */
+  .menu-item--danger .menu-item__indicator {
+    color: var(--danger);
+  }
+
+  .menu-item--danger [data-slot="label"] {
+    color: var(--danger);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Popover — packages/styles/components/popover.css
+   * ------------------------------------------------------------------------- */
+
+  @keyframes heroui-popover-in-bottom {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(4px); /* zoom-in-90 + slide-in-from-bottom-1 */
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes heroui-popover-in-top {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(-4px); /* zoom-in-90 + slide-in-from-top-1 */
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes heroui-popover-in-left {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateX(4px); /* zoom-in-90 + slide-in-from-right-1 */
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  @keyframes heroui-popover-in-right {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateX(-4px); /* zoom-in-90 + slide-in-from-left-1 */
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  @keyframes heroui-popover-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95); /* zoom-out-95 + fade-out */
+    }
+  }
+
+  .popover {
+    transform-origin: var(--trigger-anchor-point);
+    background-color: var(--overlay);
+    padding: 0;
+    font-size: 0.875rem; /* text-sm */
+    line-height: calc(1.25 / 0.875);
+    border-radius: min(32px, var(--radius-3xl));
+    box-shadow: var(--overlay-shadow);
+  }
+
+  .popover[data-entering="true"] {
+    animation-duration: 150ms;
+    animation-timing-function: var(--ease-smooth);
+    animation-fill-mode: both;
+  }
+
+  .popover[data-entering="true"][data-placement="bottom"] {
+    animation-name: heroui-popover-in-bottom;
+  }
+
+  .popover[data-entering="true"][data-placement="top"] {
+    animation-name: heroui-popover-in-top;
+  }
+
+  .popover[data-entering="true"][data-placement="left"] {
+    animation-name: heroui-popover-in-left;
+  }
+
+  .popover[data-entering="true"][data-placement="right"] {
+    animation-name: heroui-popover-in-right;
+  }
+
+  .popover[data-exiting="true"] {
+    animation: heroui-popover-out 100ms var(--ease-smooth) both;
+    /* Stays non-interactive while closing, even if the exit animation is interrupted */
+    pointer-events: none;
+  }
+
+  .popover[data-exiting="true"],
+  .popover[data-entering="true"] {
+    will-change: opacity, transform;
+  }
+
+  .popover [data-slot="popover-overlay-arrow"] {
+    fill: var(--overlay);
+  }
+
+  .popover[data-placement="bottom"] [data-slot="popover-overlay-arrow"] {
+    rotate: 180deg;
+  }
+
+  .popover[data-placement="left"] [data-slot="popover-overlay-arrow"] {
+    rotate: -90deg;
+  }
+
+  .popover[data-placement="right"] [data-slot="popover-overlay-arrow"] {
+    rotate: 90deg;
+  }
+
+  .popover__dialog {
+    padding: calc(var(--spacing) * 4); /* p-4 = 16px */
+    outline: none;
+  }
+
+  .popover__heading {
+    font-weight: 500;
+  }
+
+  .popover__trigger {
+    display: inline-block;
+    transition:
+      color 150ms var(--ease-smooth),
+      background-color 150ms var(--ease-smooth),
+      box-shadow 150ms var(--ease-out);
+    cursor: var(--cursor-interactive);
+  }
+
+  .popover__trigger:focus-visible,
+  .popover__trigger[data-focus-visible="true"] {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--ring-offset-width) var(--background),
+      0 0 0 calc(var(--ring-offset-width) + 2px) var(--focus);
+  }
+
+  .popover__trigger:disabled,
+  .popover__trigger[aria-disabled="true"] {
+    opacity: var(--disabled-opacity);
+    cursor: var(--cursor-disabled);
+    pointer-events: none;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Dropdown — packages/styles/components/dropdown.css
+   * ------------------------------------------------------------------------- */
+
+  .dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 1); /* gap-1 = 4px */
+  }
+
+  .dropdown__trigger {
+    display: inline-block;
+    /* Only visible when using a custom trigger — not passing "Button" as a
+       child — hence we use some button styles (custom trigger) */
+    outline: none;
+
+    transition:
+      transform 250ms var(--ease-out-quart),
+      background-color 150ms var(--ease-smooth),
+      box-shadow 150ms var(--ease-out);
+    transform: translateZ(0);
+
+    cursor: var(--cursor-interactive);
+  }
+
+  .dropdown__trigger:focus-visible,
+  .dropdown__trigger[data-focus-visible="true"] {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--ring-offset-width) var(--background),
+      0 0 0 calc(var(--ring-offset-width) + 2px) var(--focus);
+  }
+
+  .dropdown__trigger:disabled,
+  .dropdown__trigger[aria-disabled="true"] {
+    opacity: var(--disabled-opacity);
+    cursor: var(--cursor-disabled);
+    pointer-events: none;
+  }
+
+  .dropdown__trigger[data-pending="true"] {
+    pointer-events: none;
+  }
+
+  /* Default active/pressed state — scale transform */
+  .dropdown__trigger:active,
+  .dropdown__trigger[data-pressed="true"] {
+    transform: scale(0.97);
+  }
+
+  /* Similar to select popover styles */
+  .dropdown__popover {
+    max-width: 48svw;
+    transform-origin: var(--trigger-anchor-point);
+    scroll-padding-block: calc(var(--spacing) * 1); /* scroll-py-1 */
+    scrollbar-width: var(--scrollbar-width);
+    scrollbar-color: var(--scrollbar-color);
+    scrollbar-gutter: var(--scrollbar-gutter);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: var(--overlay);
+    padding: 0;
+    font-size: 0.875rem; /* text-sm */
+    line-height: calc(1.25 / 0.875);
+    border-radius: min(32px, var(--radius-3xl));
+    box-shadow: var(--overlay-shadow);
+  }
+
+  .dropdown__popover:focus-visible,
+  .dropdown__popover[data-focus-visible="true"] {
+    outline: none;
+  }
+
+  /* Entering animations */
+  .dropdown__popover[data-entering="true"] {
+    animation-duration: 150ms;
+    animation-timing-function: var(--ease-smooth);
+    animation-fill-mode: both;
+  }
+
+  .dropdown__popover[data-entering="true"][data-placement="top"] {
+    animation-name: heroui-popover-in-top;
+  }
+
+  .dropdown__popover[data-entering="true"][data-placement="bottom"] {
+    animation-name: heroui-popover-in-bottom;
+  }
+
+  .dropdown__popover[data-entering="true"][data-placement="left"] {
+    animation-name: heroui-popover-in-left;
+  }
+
+  .dropdown__popover[data-entering="true"][data-placement="right"] {
+    animation-name: heroui-popover-in-right;
+  }
+
+  /* Exiting animations */
+  .dropdown__popover[data-exiting="true"] {
+    animation: heroui-popover-out 100ms var(--ease-smooth) both;
+    pointer-events: none;
+  }
+
+  .dropdown__popover[data-exiting="true"],
+  .dropdown__popover[data-entering="true"] {
+    will-change: opacity, transform;
+  }
+
+  .dropdown__popover [data-slot="popover-overlay-arrow"] {
+    fill: var(--overlay);
+  }
+
+  .dropdown__popover[data-placement="bottom"] [data-slot="popover-overlay-arrow"] {
+    rotate: 180deg;
+  }
+
+  .dropdown__popover[data-placement="left"] [data-slot="popover-overlay-arrow"] {
+    rotate: -90deg;
+  }
+
+  .dropdown__popover[data-placement="right"] [data-slot="popover-overlay-arrow"] {
+    rotate: 90deg;
+  }
+
+  /* Menu styles */
+  .dropdown__popover [data-slot="dropdown-menu"] {
+    padding: calc(var(--spacing) * 1.5); /* p-1.5 = 6px */
+    outline: none;
+  }
+
+  .dropdown__popover [data-slot="menu-item"] {
+    padding-inline: calc(var(--spacing) * 2.5); /* px-2.5 = 10px */
+  }
+
+  .dropdown__menu {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 0.5); /* gap-0.5 = 2px */
+    overflow: clip;
+    padding: calc(var(--spacing) * 1); /* p-1 = 4px */
+  }
+
+  /* This makes the separator take up 94% of the width and be centred */
+  .dropdown__menu [data-slot="separator"] {
+    margin-inline-start: 3%;
+    width: 94%;
+  }
+
+  /* md: breakpoint */
+  @media (width >= 48rem) {
+    .dropdown__popover {
+      min-width: calc(var(--spacing) * 55); /* md:min-w-55 = 220px */
+    }
+  }
+
+  /* Reduced motion (HeroUI `motion-reduce` custom variant) */
+  @media (prefers-reduced-motion: reduce) {
+    .button,
+    .menu-item,
+    .dropdown__trigger,
+    .popover__trigger,
+    .avatar__image {
+      transition: none;
+    }
+
+    .dropdown__popover[data-entering="true"],
+    .dropdown__popover[data-exiting="true"],
+    .popover[data-entering="true"],
+    .popover[data-exiting="true"] {
+      animation: none;
+    }
+
+    .menu-item[aria-checked="true"] [data-slot="menu-item-indicator--checkmark"],
+    .menu-item[aria-selected="true"] [data-slot="menu-item-indicator--checkmark"],
+    .menu-item[data-selected="true"] [data-slot="menu-item-indicator--checkmark"] {
+      transition: none;
+    }
+  }
+}
