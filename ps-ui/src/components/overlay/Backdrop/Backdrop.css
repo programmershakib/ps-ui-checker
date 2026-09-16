@@ -1,0 +1,42 @@
+.ps-backdrop {
+    --ps-backdrop-opacity: 1;
+
+    position: fixed;
+    inset: 0;
+    z-index: var(--ps-z-overlay);
+    background: transparent;
+    opacity: var(--ps-backdrop-opacity);
+    pointer-events: auto;
+    animation: ps-backdrop-in var(--ps-duration-base) var(--ps-ease-standard)
+        both;
+}
+
+.ps-backdrop[data-variant="transparent"] {
+    background: transparent;
+}
+
+.ps-backdrop[data-variant="backdrop"] {
+    background: var(--ps-overlay);
+    -webkit-backdrop-filter: blur(var(--ps-blur-md));
+    backdrop-filter: blur(var(--ps-blur-md));
+}
+
+.ps-backdrop[data-variant="opaque"] {
+    background: var(--ps-overlay);
+}
+
+@keyframes ps-backdrop-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: var(--ps-backdrop-opacity);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ps-backdrop {
+        animation: none;
+    }
+}

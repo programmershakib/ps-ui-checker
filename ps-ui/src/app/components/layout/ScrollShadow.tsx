@@ -260,9 +260,6 @@ const ScrollShadowPreview = () => {
                 <Text>Visibility Change</Text>
 
                 <ScrollShadow
-                    onVisibilityChange={(visibility) => {
-                        console.log("Visibility:", visibility);
-                    }}
                     style={{
                         height: "200px",
                         width: "300px",
@@ -326,7 +323,6 @@ const ScrollShadowPreview = () => {
                 <ScrollShadow
                     variant="minimal"
                     barColor="#f97316"
-                    arrowColor="#f97316"
                     hideScrollBar
                     style={{
                         height: "200px",
@@ -372,9 +368,6 @@ const ScrollShadowPreview = () => {
                     hideScrollBar
                     enabled
                     visibility="auto"
-                    onVisibilityChange={(visibility) => {
-                        console.log("Current visibility:", visibility);
-                    }}
                     classNames={{
                         base: "custom-scroll-shadow",
                         content: "custom-scroll-content",

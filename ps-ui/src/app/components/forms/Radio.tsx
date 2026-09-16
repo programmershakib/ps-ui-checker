@@ -8,9 +8,6 @@ const RadioPreview = () => {
                 label="Basic Radio"
                 description="Choose one option."
                 defaultValue="one"
-                onChange={(value) => {
-                    console.log("Radio:", value);
-                }}
             >
                 <Radio value="one">One</Radio>
                 <Radio value="two">Two</Radio>

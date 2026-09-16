@@ -117,13 +117,7 @@ const SwitchPreview = () => {
             </Flex>
 
             <Flex gap={10}>
-                <Switch
-                    value="controlled"
-                    checked
-                    onChange={(checked) => {
-                        console.log("Switch:", checked);
-                    }}
-                >
+                <Switch value="controlled" checked>
                     Controlled
                 </Switch>
             </Flex>
@@ -151,9 +145,6 @@ const SwitchPreview = () => {
                 label="Notifications"
                 description="Choose which notifications you want."
                 defaultValue={["email", "push"]}
-                onChange={(value) => {
-                    console.log("SwitchGroup:", value);
-                }}
             >
                 <Switch value="email">Email</Switch>
 

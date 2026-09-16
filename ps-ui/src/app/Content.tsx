@@ -5,6 +5,7 @@ import CheckboxPreview from "./components/forms/Checkbox";
 import RadioPreview from "./components/forms/Radio";
 import CardPreview from "./components/layout/Card";
 import ScrollShadowPreview from "./components/layout/ScrollShadow";
+import DropdownPreview from "./components/overlay/DropdownPreview";
 
 const Content = () => {
     return (
@@ -15,6 +16,7 @@ const Content = () => {
                 padding: "20px",
             }}
         >
+            <DropdownPreview />
             <CardPreview />
             <ScrollShadowPreview />
             <RadioPreview />

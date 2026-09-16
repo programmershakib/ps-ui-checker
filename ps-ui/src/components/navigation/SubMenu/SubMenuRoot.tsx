@@ -1,0 +1,245 @@
+"use client";
+
+import { SubMenuContext, useOptionalSubMenuContext } from "./SubMenu.context";
+import { Popover, useOptionalPopoverContext } from "../../overlay/Popover";
+import { contains, normalizeTrigger } from "./SubMenu.utils";
+import { useControllableState } from "../../../hooks";
+import { useMenuContext } from "../Menu/Menu.context";
+import type { SubMenuProps } from "./SubMenu.types";
+import {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useId,
+    useMemo,
+    useRef,
+} from "react";
+
+export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
+    (
+        {
+            children,
+            id,
+            className,
+            style,
+            isOpen,
+            defaultOpen = false,
+            onOpenChange,
+            trigger = "hover",
+            openDelay = 200,
+            closeDelay = 320,
+            longPressDelay = 520,
+            longPressMoveThreshold = 8,
+            closeOnHoverLeave = true,
+            gap = 3,
+            crossOffset = 0,
+            ...rootProps
+        },
+        ref,
+    ) => {
+        const menu = useMenuContext("SubMenu");
+        const parentPopover = useOptionalPopoverContext();
+        const parentSubMenu = useOptionalSubMenuContext();
+        const submenuId = useId();
+        const triggerRef = useRef<HTMLElement | null>(null);
+        const contentRef = useRef<HTMLElement | null>(null);
+        const focusOnOpenRef = useRef(false);
+        const keyboardOpenRef = useRef(false);
+        const openTimer = useRef<number | null>(null);
+        const closeTimer = useRef<number | null>(null);
+        const [open, setOpenState] = useControllableState({
+            value: isOpen,
+            defaultValue: defaultOpen,
+            onChange: onOpenChange,
+        });
+        const openRef = useRef(open);
+        openRef.current = open;
+        const modes = normalizeTrigger(trigger);
+
+        const setTriggerNode = useCallback((node: HTMLElement | null) => {
+            triggerRef.current = node;
+        }, []);
+
+        const clearTimers = useCallback(() => {
+            if (openTimer.current !== null)
+                window.clearTimeout(openTimer.current);
+            if (closeTimer.current !== null)
+                window.clearTimeout(closeTimer.current);
+            openTimer.current = null;
+            closeTimer.current = null;
+        }, []);
+
+        const cancelClose = useCallback(() => {
+            if (closeTimer.current !== null)
+                window.clearTimeout(closeTimer.current);
+            closeTimer.current = null;
+        }, []);
+
+        const cancelCloseTree = useCallback(() => {
+            cancelClose();
+            parentSubMenu?.cancelCloseTree();
+        }, [cancelClose, parentSubMenu]);
+
+        const setOpen = useCallback(
+            (next: boolean, focus = false) => {
+                clearTimers();
+                openRef.current = next;
+                focusOnOpenRef.current = Boolean(next && focus);
+                keyboardOpenRef.current = Boolean(next && focus);
+                if (next) {
+                    parentSubMenu?.cancelCloseTree();
+                    menu.requestSubMenuOpen(submenuId);
+                }
+                setOpenState(next);
+            },
+            [clearTimers, menu, parentSubMenu, setOpenState, submenuId],
+        );
+
+        const requestHoverOpen = useCallback(() => {
+            if (!modes.has("hover")) return;
+            keyboardOpenRef.current = false;
+            cancelCloseTree();
+            if (openTimer.current !== null)
+                window.clearTimeout(openTimer.current);
+            if (openRef.current) return;
+            openTimer.current = window.setTimeout(
+                () => setOpen(true),
+                openDelay,
+            );
+        }, [cancelCloseTree, modes, openDelay, setOpen]);
+
+        const scheduleClose = useCallback(
+            (force = false) => {
+                if (
+                    !force &&
+                    (!closeOnHoverLeave ||
+                        !modes.has("hover") ||
+                        keyboardOpenRef.current)
+                ) {
+                    return;
+                }
+                if (openTimer.current !== null)
+                    window.clearTimeout(openTimer.current);
+                if (closeTimer.current !== null)
+                    window.clearTimeout(closeTimer.current);
+                closeTimer.current = window.setTimeout(
+                    () => setOpen(false),
+                    closeDelay,
+                );
+            },
+            [closeDelay, closeOnHoverLeave, modes, setOpen],
+        );
+
+        const isInside = useCallback(
+            (target: EventTarget | null) =>
+                contains(triggerRef.current, target) ||
+                contains(contentRef.current, target),
+            [],
+        );
+
+        useEffect(() => () => clearTimers(), [clearTimers]);
+
+        useEffect(() => {
+            if (!parentPopover?.open) setOpen(false);
+        }, [parentPopover?.open, setOpen]);
+
+        useEffect(() => {
+            if (!open) return;
+            const triggerKey = triggerRef.current?.dataset.key;
+            if (menu.activeKey === null || menu.activeKey === triggerKey)
+                return;
+            scheduleClose(true);
+        }, [menu.activeKey, open, scheduleClose]);
+
+        useEffect(
+            () =>
+                menu.registerSubMenu({
+                    id: submenuId,
+                    close: () => setOpen(false),
+                    scheduleClose: () => scheduleClose(true),
+                    contains: isInside,
+                }),
+            [isInside, menu, scheduleClose, setOpen, submenuId],
+        );
+
+        const context = useMemo(
+            () => ({
+                id: submenuId,
+                open,
+                openRef,
+                setOpen,
+                trigger,
+                openDelay,
+                closeDelay,
+                longPressDelay,
+                longPressMoveThreshold,
+                gap,
+                crossOffset,
+                triggerRef,
+                setTriggerNode,
+                contentRef,
+                focusOnOpenRef,
+                requestHoverOpen,
+                scheduleClose,
+                cancelClose,
+                cancelCloseTree,
+            }),
+            [
+                cancelClose,
+                cancelCloseTree,
+                closeDelay,
+                crossOffset,
+                gap,
+                longPressDelay,
+                longPressMoveThreshold,
+                open,
+                openDelay,
+                requestHoverOpen,
+                scheduleClose,
+                setOpen,
+                setTriggerNode,
+                submenuId,
+                trigger,
+            ],
+        );
+
+        const hasRootElement =
+            id !== undefined ||
+            className !== undefined ||
+            style !== undefined ||
+            Object.keys(rootProps).length > 0 ||
+            ref !== null;
+        const content = hasRootElement ? (
+            <span
+                {...rootProps}
+                id={id}
+                ref={ref}
+                className={className}
+                style={style}
+                data-slot="submenu"
+            >
+                {children}
+            </span>
+        ) : (
+            children
+        );
+
+        return (
+            <Popover
+                isOpen={open}
+                onOpenChange={(next) => setOpen(next)}
+                trigger="manual"
+                closeOnInteractOutside={false}
+                restoreFocusOnClose={false}
+                positioningRoot={parentPopover?.positioningRoot}
+                portalContainer={parentPopover?.portalContainer}
+            >
+                <SubMenuContext.Provider value={context}>
+                    {content}
+                </SubMenuContext.Provider>
+            </Popover>
+        );
+    },
+);
+
+SubMenuRoot.displayName = "SubMenu";

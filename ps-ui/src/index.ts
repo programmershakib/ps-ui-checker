@@ -116,3 +116,66 @@ export type { CenterProps } from "./components/layout/Center";
 
 export { AspectRatio } from "./components/layout/AspectRatio";
 export type { AspectRatioProps } from "./components/layout/AspectRatio";
+
+export { Backdrop } from "./components/overlay/Backdrop";
+export type {
+    BackdropProps,
+    OverlayBackdropVariant,
+} from "./components/overlay/Backdrop";
+
+export { Popover } from "./components/overlay/Popover";
+export type {
+    PopoverContentProps,
+    PopoverProps,
+    PopoverTriggerProps,
+} from "./components/overlay/Popover";
+
+export { Tooltip } from "./components/overlay/Tooltip";
+export type {
+    TooltipContentProps,
+    TooltipProps,
+    TooltipTriggerProps,
+} from "./components/overlay/Tooltip";
+
+export { Dropdown } from "./components/overlay/Dropdown";
+export type { DropdownProps } from "./components/overlay/Dropdown";
+
+export { ContextMenu } from "./components/overlay/ContextMenu";
+export type {
+    ContextMenuContentProps,
+    ContextMenuProps,
+} from "./components/overlay/ContextMenu";
+
+export { Menu, MenuIndicator } from "./components/navigation/Menu";
+export type {
+    MenuHeaderProps,
+    MenuIndicatorProps,
+    MenuIndicatorRenderer,
+    MenuItemAlign,
+    MenuItemJustify,
+    MenuItemProps,
+    MenuItemRenderState,
+    MenuProps,
+    MenuSectionProps,
+    MenuSeparatorProps,
+    Selection,
+    SelectionIndicator,
+    SelectionKey,
+    SelectionMode,
+} from "./components/navigation/Menu";
+
+export { SubMenu } from "./components/navigation/SubMenu";
+export type {
+    SubMenuContentProps,
+    SubMenuIndicatorProps,
+    SubMenuProps,
+    SubMenuTriggerProps,
+} from "./components/navigation/SubMenu";
+
+export { Kbd } from "./components/typography/Kbd";
+export type {
+    KbdAbbrProps,
+    KbdContentProps,
+    KbdKey,
+    KbdProps,
+} from "./components/typography/Kbd";

@@ -160,14 +160,7 @@ const CheckboxPreview = () => {
             </Flex>
 
             <Flex gap={10}>
-                <Checkbox
-                    value="change"
-                    onChange={(checked) => {
-                        console.log("Checkbox:", checked);
-                    }}
-                >
-                    onChange
-                </Checkbox>
+                <Checkbox value="change">onChange</Checkbox>
             </Flex>
 
             <CheckboxGroup
@@ -175,9 +168,6 @@ const CheckboxPreview = () => {
                 label="Interests"
                 description="Select your interests."
                 defaultValue={["react", "typescript"]}
-                onChange={(value) => {
-                    console.log("CheckboxGroup:", value);
-                }}
             >
                 <Checkbox value="react">React</Checkbox>
                 <Checkbox value="typescript">TypeScript</Checkbox>

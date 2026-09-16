@@ -1,0 +1,32 @@
+.ps-kbd {
+    display: inline-flex;
+    min-width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border: 0;
+    border-radius: var(--ps-radius-lg);
+    background: var(--ps-content3);
+    color: var(--ps-muted);
+    font-family: inherit;
+    font-size: var(--ps-font-xs);
+    font-weight: var(--ps-font-weight-medium);
+    line-height: 1;
+    padding-inline: 8px;
+    white-space: nowrap;
+    word-spacing: -0.25rem;
+}
+
+.ps-kbd--light {
+    background: transparent;
+    color: var(--ps-muted);
+}
+
+.ps-kbd__abbr {
+    text-decoration: none;
+}
+
+.ps-kbd__content {
+    display: inline-flex;
+}
