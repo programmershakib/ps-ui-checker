@@ -7,15 +7,26 @@
 }
 
 .ps-popover__content {
-    --ps-popover-bg: var(--ps-content1);
-    --ps-popover-radius: var(--ps-radius-xl);
-    --ps-popover-shadow: var(--ps-shadow-lg);
-    --ps-popover-padding: var(--ps-space-sm);
+    --ps-popover-bg: var(--ps-overlay-surface, var(--ps-content1));
+    --ps-popover-fg: var(--ps-overlay-foreground, var(--ps-foreground));
+    --ps-popover-radius: var(
+        --ps-overlay-radius,
+        min(32px, var(--ps-radius-2xl))
+    );
+    --ps-popover-shadow: var(--ps-overlay-shadow, var(--ps-shadow-lg));
+    --ps-popover-padding: var(--ps-overlay-padding, 0px);
     --ps-popover-origin: top left;
     --ps-popover-arrow-size: 10px;
     --ps-popover-arrow-gap: 0px;
     --ps-popover-arrow-x: 50%;
     --ps-popover-arrow-y: 50%;
+    --ps-popover-scroll-padding: var(--ps-space-xs);
+    --ps-popover-scrollbar-size: var(--ps-scrollbar-size, 10px);
+    --ps-popover-scrollbar-thumb: var(
+        --ps-scrollbar-thumb,
+        color-mix(in oklch, var(--ps-foreground) 15%, transparent)
+    );
+    --ps-popover-scrollbar-track: var(--ps-scrollbar-track, transparent);
 
     position: fixed;
     top: 0;
@@ -26,20 +37,53 @@
     max-height: calc(100svh - (var(--ps-space-sm) * 2));
     overflow: auto;
     overscroll-behavior: contain;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scroll-padding-block: var(--ps-popover-scroll-padding);
+    scrollbar-color: var(--ps-popover-scrollbar-thumb)
+        var(--ps-popover-scrollbar-track);
+    scrollbar-gutter: var(--ps-scrollbar-gutter, auto);
+    scrollbar-width: thin;
     border: 0;
     border-radius: var(--ps-popover-radius);
     background: var(--ps-popover-bg);
     box-shadow: var(--ps-popover-shadow);
-    color: var(--ps-foreground);
+    color: var(--ps-popover-fg);
+    font-size: var(--ps-font-sm);
+    line-height: 1.25;
     outline: none;
     padding: var(--ps-popover-padding);
     transform-origin: var(--ps-popover-origin);
     will-change: transform, opacity;
 }
 
+.ps-popover__content[data-scrollbar="default"] {
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+}
+
+.ps-popover__content[data-scrollbar="none"] {
+    scrollbar-color: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
 .ps-popover__content::-webkit-scrollbar {
+    width: var(--ps-popover-scrollbar-size);
+    height: var(--ps-popover-scrollbar-size);
+}
+
+.ps-popover__content::-webkit-scrollbar-track {
+    background: var(--ps-popover-scrollbar-track);
+}
+
+.ps-popover__content::-webkit-scrollbar-thumb {
+    min-height: 24px;
+    border: 3px solid transparent;
+    border-radius: var(--ps-radius-full);
+    background: var(--ps-popover-scrollbar-thumb);
+    background-clip: content-box;
+}
+
+.ps-popover__content[data-scrollbar="none"]::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
@@ -49,47 +93,48 @@
     scrollbar-width: thin;
 }
 
-.ps-popover__content[data-arrow="true"] {
-    overflow: visible;
-}
-
 .ps-popover__content:not([data-positioned="true"]) {
     visibility: hidden;
 }
 
 .ps-popover__content[data-entering="true"] {
-    animation: ps-popover-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-duration: var(--ps-popover-enter-duration, 150ms);
+    animation-timing-function: var(
+        --ps-ease-smooth,
+        cubic-bezier(0.16, 1, 0.3, 1)
+    );
+    animation-fill-mode: both;
+}
+
+.ps-popover__content[data-entering="true"][data-placement="bottom"] {
+    animation-name: ps-popover-in-bottom;
+}
+
+.ps-popover__content[data-entering="true"][data-placement="top"] {
+    animation-name: ps-popover-in-top;
+}
+
+.ps-popover__content[data-entering="true"][data-placement="left"] {
+    animation-name: ps-popover-in-left;
+}
+
+.ps-popover__content[data-entering="true"][data-placement="right"] {
+    animation-name: ps-popover-in-right;
 }
 
 .ps-popover__content[data-exiting="true"] {
     pointer-events: none;
-    opacity: 0;
-    transform-origin: center center;
-    animation: ps-popover-exit 170ms cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation: ps-popover-out var(--ps-popover-exit-duration, 100ms)
+        var(--ps-ease-smooth, cubic-bezier(0.16, 1, 0.3, 1)) both;
 }
 
 .ps-popover__content[data-context="true"][data-entering="true"] {
-    animation-name: ps-popover-context-enter;
-}
-
-.ps-popover__content[data-placement="bottom"] {
-    --ps-popover-enter-y: -1px;
-}
-
-.ps-popover__content[data-placement="top"] {
-    --ps-popover-enter-y: 1px;
-}
-
-.ps-popover__content[data-placement="right"] {
-    --ps-popover-enter-x: -1px;
-}
-
-.ps-popover__content[data-placement="left"] {
-    --ps-popover-enter-x: 1px;
+    animation-name: ps-popover-in-context;
 }
 
 .ps-popover__arrow {
     position: absolute;
+    z-index: -1;
     width: var(--ps-popover-arrow-size);
     height: var(--ps-popover-arrow-size);
     border-radius: var(--ps-radius-xs);
@@ -119,44 +164,75 @@
     left: calc(100% + var(--ps-popover-arrow-gap));
 }
 
-@keyframes ps-popover-enter {
+@keyframes ps-popover-in-bottom {
     from {
         opacity: 0;
-        transform: translate3d(
-                var(--ps-popover-enter-x, 0),
-                var(--ps-popover-enter-y, 0),
-                0
-            )
-            scale(0.98);
+        transform: scale(0.9) translateY(4px);
     }
 
     to {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+        transform: scale(1) translateY(0);
     }
 }
 
-@keyframes ps-popover-context-enter {
+@keyframes ps-popover-in-top {
     from {
         opacity: 0;
-        transform: translate3d(0, -2px, 0) scale(0.98);
+        transform: scale(0.9) translateY(-4px);
     }
 
     to {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+        transform: scale(1) translateY(0);
     }
 }
 
-@keyframes ps-popover-exit {
+@keyframes ps-popover-in-left {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateX(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+    }
+}
+
+@keyframes ps-popover-in-right {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateX(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+    }
+}
+
+@keyframes ps-popover-in-context {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes ps-popover-out {
     from {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+        transform: scale(1);
     }
 
     to {
         opacity: 0;
-        transform: translate3d(0, 0, 0) scale(0.99);
+        transform: scale(0.95);
     }
 }
 

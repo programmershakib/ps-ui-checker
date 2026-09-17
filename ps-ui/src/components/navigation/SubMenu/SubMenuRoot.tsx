@@ -1,11 +1,15 @@
 "use client";
 
-import { SubMenuContext, useOptionalSubMenuContext } from "./SubMenu.context";
 import { Popover, useOptionalPopoverContext } from "../../overlay/Popover";
 import { contains, normalizeTrigger } from "./SubMenu.utils";
 import { useControllableState } from "../../../hooks";
 import { useMenuContext } from "../Menu/Menu.context";
 import type { SubMenuProps } from "./SubMenu.types";
+import {
+    SubMenuContext,
+    useOptionalSubMenuContext,
+    type SubMenuChildRegistration,
+} from "./SubMenu.context";
 import {
     forwardRef,
     useCallback,
@@ -47,6 +51,7 @@ export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
         const keyboardOpenRef = useRef(false);
         const openTimer = useRef<number | null>(null);
         const closeTimer = useRef<number | null>(null);
+        const childSubMenusRef = useRef<SubMenuChildRegistration[]>([]);
         const [open, setOpenState] = useControllableState({
             value: isOpen,
             defaultValue: defaultOpen,
@@ -80,6 +85,23 @@ export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
             parentSubMenu?.cancelCloseTree();
         }, [cancelClose, parentSubMenu]);
 
+        const registerChildSubMenu = useCallback(
+            (submenu: SubMenuChildRegistration) => {
+                childSubMenusRef.current = [
+                    ...childSubMenusRef.current.filter(
+                        (entry) => entry.id !== submenu.id,
+                    ),
+                    submenu,
+                ];
+                return () => {
+                    childSubMenusRef.current = childSubMenusRef.current.filter(
+                        (entry) => entry.id !== submenu.id,
+                    );
+                };
+            },
+            [],
+        );
+
         const setOpen = useCallback(
             (next: boolean, focus = false) => {
                 clearTimers();
@@ -94,6 +116,17 @@ export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
             },
             [clearTimers, menu, parentSubMenu, setOpenState, submenuId],
         );
+
+        const closeStack = useCallback(() => {
+            clearTimers();
+            const childCloseDelay = childSubMenusRef.current.reduceRight(
+                (delay, submenu) => Math.max(delay, submenu.closeStack()),
+                0,
+            );
+            if (!openRef.current && childCloseDelay === 0) return 0;
+            window.setTimeout(() => setOpen(false), childCloseDelay);
+            return childCloseDelay + 36;
+        }, [clearTimers, setOpen]);
 
         const requestHoverOpen = useCallback(() => {
             if (!modes.has("hover")) return;
@@ -122,12 +155,9 @@ export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
                     window.clearTimeout(openTimer.current);
                 if (closeTimer.current !== null)
                     window.clearTimeout(closeTimer.current);
-                closeTimer.current = window.setTimeout(
-                    () => setOpen(false),
-                    closeDelay,
-                );
+                closeTimer.current = window.setTimeout(closeStack, closeDelay);
             },
-            [closeDelay, closeOnHoverLeave, modes, setOpen],
+            [closeDelay, closeOnHoverLeave, closeStack, modes],
         );
 
         const isInside = useCallback(
@@ -144,6 +174,14 @@ export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
         }, [parentPopover?.open, setOpen]);
 
         useEffect(() => {
+            if (!parentSubMenu) return undefined;
+            return parentSubMenu.registerChildSubMenu({
+                id: submenuId,
+                closeStack,
+            });
+        }, [closeStack, parentSubMenu, submenuId]);
+
+        useEffect(() => {
             if (!open) return;
             const triggerKey = triggerRef.current?.dataset.key;
             if (menu.activeKey === null || menu.activeKey === triggerKey)
@@ -155,11 +193,14 @@ export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
             () =>
                 menu.registerSubMenu({
                     id: submenuId,
-                    close: () => setOpen(false),
+                    close: () => {
+                        closeStack();
+                    },
+                    closeStack,
                     scheduleClose: () => scheduleClose(true),
                     contains: isInside,
                 }),
-            [isInside, menu, scheduleClose, setOpen, submenuId],
+            [closeStack, isInside, menu, scheduleClose, submenuId],
         );
 
         const context = useMemo(
@@ -180,20 +221,24 @@ export const SubMenuRoot = forwardRef<HTMLSpanElement, SubMenuProps>(
                 contentRef,
                 focusOnOpenRef,
                 requestHoverOpen,
+                closeStack,
                 scheduleClose,
                 cancelClose,
                 cancelCloseTree,
+                registerChildSubMenu,
             }),
             [
                 cancelClose,
                 cancelCloseTree,
                 closeDelay,
+                closeStack,
                 crossOffset,
                 gap,
                 longPressDelay,
                 longPressMoveThreshold,
                 open,
                 openDelay,
+                registerChildSubMenu,
                 requestHoverOpen,
                 scheduleClose,
                 setOpen,

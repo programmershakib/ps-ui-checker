@@ -15,6 +15,8 @@ export type BackdropVariant = OverlayBackdropVariant;
 
 export type PopoverPadding = Space | number | (string & {});
 
+export type PopoverScrollbar = "thin" | "default" | "none";
+
 export interface PopoverProps extends Omit<
     HTMLAttributes<HTMLSpanElement>,
     "children"
@@ -61,10 +63,12 @@ export interface PopoverContentProps extends Omit<
     minWidth?: number | string;
     maxWidth?: number | string;
     maxHeight?: number | string;
+    fitViewport?: boolean;
     padding: PopoverPadding;
     background?: string;
     radius?: RadiusScale | number | (string & {});
     shadow?: Shadow | (string & {});
+    scrollbar?: PopoverScrollbar;
     forceMount?: boolean;
     focusScope?: boolean;
     autoFocusOnOpen?: boolean;

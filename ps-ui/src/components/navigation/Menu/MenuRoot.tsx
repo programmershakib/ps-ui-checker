@@ -48,7 +48,7 @@ export const MenuRoot = forwardRef<HTMLDivElement, MenuProps>(
             selectionIndicatorIcon,
             itemAlign = "center",
             itemJustify = "between",
-            itemGap = "sm",
+            itemGap = 12,
             loopFocus = true,
             typeahead = true,
             typeaheadTimeout = 700,
@@ -186,7 +186,7 @@ export const MenuRoot = forwardRef<HTMLDivElement, MenuProps>(
 
         const requestSubMenuOpen = useCallback((id: string) => {
             subMenusRef.current.forEach((submenu) => {
-                if (submenu.id !== id) submenu.close();
+                if (submenu.id !== id) submenu.scheduleClose();
             });
         }, []);
 
@@ -369,14 +369,17 @@ export const MenuRoot = forwardRef<HTMLDivElement, MenuProps>(
                         } else if (event.key === "End") {
                             event.preventDefault();
                             focusLast();
-                        } else if (event.key === "ArrowRight") {
+                        } else if (
+                            event.key === "ArrowRight" ||
+                            event.key === "ArrowLeft"
+                        ) {
                             const target = getActiveItemNode();
                             if (target?.dataset.submenuTrigger === "true") {
                                 event.preventDefault();
                                 target.focus({ preventScroll: true });
                                 target.dispatchEvent(
                                     new KeyboardEvent("keydown", {
-                                        key: "ArrowRight",
+                                        key: event.key,
                                         bubbles: true,
                                         cancelable: true,
                                     }),

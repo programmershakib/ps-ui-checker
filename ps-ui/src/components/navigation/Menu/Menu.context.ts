@@ -21,6 +21,7 @@ export interface MenuItemRegistration {
 export interface MenuSubMenuRegistration {
     id: string;
     close: () => void;
+    closeStack: () => number;
     scheduleClose: () => void;
     contains: (target: EventTarget | null) => boolean;
 }

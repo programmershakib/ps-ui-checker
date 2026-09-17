@@ -21,6 +21,7 @@ export const SubMenuContent = forwardRef<HTMLDivElement, SubMenuContentProps>(
             gap,
             crossOffset,
             fallbackSides,
+            fitViewport = true,
             onPointerEnter,
             onPointerLeave,
             onKeyDown,
@@ -60,6 +61,7 @@ export const SubMenuContent = forwardRef<HTMLDivElement, SubMenuContentProps>(
                 gap={gap ?? submenu.gap}
                 crossOffset={crossOffset ?? submenu.crossOffset}
                 fallbackSides={fallbackSides ?? fallbackSidesFor(side)}
+                fitViewport={fitViewport}
                 onPointerEnter={(event) => {
                     submenu.cancelCloseTree();
                     onPointerEnter?.(event);

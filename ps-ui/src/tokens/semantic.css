@@ -183,6 +183,37 @@
     /* ---- overlay/scrim ---- */
     --ps-overlay: color-mix(in srgb, var(--ps-black) 50%, transparent);
 
+    /* ---- floating overlay surface ---- */
+    --ps-overlay-surface: var(--ps-content1);
+    --ps-overlay-foreground: var(--ps-foreground);
+    --ps-overlay-radius: min(32px, var(--ps-radius-2xl));
+    --ps-overlay-padding: 0px;
+    --ps-overlay-shadow:
+        0 2px 8px 0 rgb(0 0 0 / 6%), 0 -6px 12px 0 rgb(0 0 0 / 3%),
+        0 14px 28px 0 rgb(0 0 0 / 8%);
+
+    /* ---- menu/dropdown ---- */
+    --ps-menu-gap: 2px;
+    --ps-menu-item-min-height: 36px;
+    --ps-menu-item-radius: var(--ps-radius-lg);
+    --ps-menu-item-padding: 6px 10px;
+    --ps-menu-item-hover-bg: var(--ps-default-subtle);
+    --ps-menu-item-selected-bg: color-mix(
+        in oklab,
+        var(--ps-primary) 12%,
+        transparent
+    );
+
+    /* ---- scrollbar ---- */
+    --ps-scrollbar-size: 10px;
+    --ps-scrollbar-gutter: auto;
+    --ps-scrollbar-track: transparent;
+    --ps-scrollbar-thumb: color-mix(
+        in oklch,
+        var(--ps-foreground) 15%,
+        transparent
+    );
+
     /* ---- z-index ---- */
     --ps-z-sticky: 100;
     --ps-z-dropdown: 1000;
@@ -200,6 +231,8 @@
 
     /* ---- easing ---- */
     --ps-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ps-ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    --ps-ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
     --ps-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
     /* ---- focus ring ---- */
@@ -233,6 +266,9 @@
     --ps-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.36);
 
     --ps-glass-bg: color-mix(in srgb, var(--ps-black) 60%, transparent);
+    --ps-overlay-surface: var(--ps-content1);
+    --ps-overlay-foreground: var(--ps-foreground);
+    --ps-overlay-shadow: 0 0 1px 0 rgb(255 255 255 / 30%) inset;
 
     --ps-default: var(--ps-gray-700);
     --ps-default-hover: var(--ps-gray-600);
@@ -243,6 +279,18 @@
     --ps-default-subtle: var(--ps-gray-800);
     --ps-default-subtle-hover: var(--ps-gray-700);
     --ps-default-shadow: var(--ps-gray-800);
+    
+    --ps-menu-item-hover-bg: var(--ps-default);
+    --ps-menu-item-selected-bg: color-mix(
+        in oklab,
+        var(--ps-primary) 14%,
+        transparent
+    );
+    --ps-scrollbar-thumb: color-mix(
+        in oklch,
+        var(--ps-foreground) 15%,
+        transparent
+    );
 
     --ps-primary: var(--ps-primitive-blue-400);
     --ps-primary-hover: var(--ps-primitive-blue-300);

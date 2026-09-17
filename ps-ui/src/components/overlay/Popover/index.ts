@@ -3,6 +3,7 @@ export type {
     PopoverProps,
     PopoverTriggerProps,
     PopoverContentProps,
+    PopoverScrollbar,
 } from "./Popover.types";
 export {
     useOptionalPopoverContext,

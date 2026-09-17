@@ -1,29 +1,40 @@
 .ps-menu {
-    --ps-menu-hover-default: var(--ps-default-subtle);
+    --ps-menu-hover-default: var(
+        --ps-menu-item-hover-bg,
+        var(--ps-default-subtle)
+    );
+    --ps-menu-gap-current: var(--ps-menu-gap, 2px);
 
+    position: relative;
+    width: 100%;
     min-width: 0;
+    gap: var(--ps-menu-gap-current);
+    overflow: clip;
     outline: none;
 }
 
 .ps-menu__item {
     position: relative;
-    min-height: var(--ps-menu-item-min-height, 32px);
+    min-height: var(--ps-menu-item-min-height, 36px);
     border: 0;
-    border-radius: var(--ps-menu-item-radius, var(--ps-radius-md));
+    border-radius: var(--ps-menu-item-radius, var(--ps-radius-lg));
     background: transparent;
     color: inherit;
     cursor: default;
     outline: none;
-    padding: var(--ps-menu-item-padding, 8px 10px);
+    padding: var(--ps-menu-item-padding, 6px 10px);
     text-align: inherit;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
     transition:
-        background-color 170ms var(--ps-ease-standard),
-        color 170ms var(--ps-ease-standard),
-        transform 170ms cubic-bezier(0.16, 1, 0.3, 1);
+        background-color 150ms var(--ps-ease-smooth, var(--ps-ease-standard)),
+        color 150ms var(--ps-ease-smooth, var(--ps-ease-standard)),
+        box-shadow 150ms var(--ps-ease-standard),
+        transform 250ms var(--ps-ease-out-quart, cubic-bezier(0.25, 1, 0.5, 1));
 }
 
 .ps-menu__item:hover,
+.ps-menu__item[data-active="true"],
 .ps-menu__item[data-submenu-open="true"] {
     background-color: var(--ps-menu-hover-bg, var(--ps-menu-hover-default));
 }
@@ -31,28 +42,50 @@
 .ps-menu__item[data-selected="true"] {
     background-color: var(
         --ps-menu-selected-bg,
-        color-mix(in oklab, var(--ps-primary) 10%, transparent)
+        var(
+            --ps-menu-item-selected-bg,
+            color-mix(in oklab, var(--ps-primary) 12%, transparent)
+        )
     );
 }
 
 .ps-menu__item[data-pressed="true"] {
-    transform: scale(0.985);
+    transform: scale(0.98);
 }
 
 .ps-menu[data-active-color="true"] .ps-menu__item[data-pressed="true"] {
     background-color: var(--ps-menu-active-bg);
 }
 
-.ps-menu__item:focus-visible {
-    outline: var(--ps-focus-ring-width) solid var(--ps-focus-ring-color);
-    outline-offset: var(--ps-focus-ring-offset);
+.ps-menu__item:focus-visible,
+.ps-menu__item[data-focus-visible="true"] {
+    z-index: 1;
+    outline: none;
+    box-shadow: 0 0 0 var(--ps-focus-ring-width, 2px)
+        var(--ps-focus-ring-color, var(--ps-primary, #006fee)) inset;
 }
 
 .ps-menu__item[aria-disabled="true"],
 .ps-menu__item[data-disabled="true"] {
     cursor: not-allowed;
-    opacity: 0.45;
+    opacity: var(--ps-disabled-opacity);
     pointer-events: none;
+}
+
+.ps-menu__separator {
+    width: 94%;
+    margin-inline-start: 3%;
+}
+
+.ps-menu [data-slot="menu-header"] {
+    width: 100%;
+    padding-block: 6px 4px;
+    padding-inline: 8px;
+    color: var(--ps-muted);
+    font-size: var(--ps-font-xs);
+    font-weight: var(--ps-font-weight-medium);
+    line-height: 1.35;
+    text-align: start;
 }
 
 .ps-menu__indicator {

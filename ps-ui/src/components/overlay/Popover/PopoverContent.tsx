@@ -49,10 +49,12 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
             minWidth,
             maxWidth,
             maxHeight,
+            fitViewport = false,
             padding,
             background,
             radius,
             shadow,
+            scrollbar = "thin",
             forceMount = false,
             focusScope = false,
             autoFocusOnOpen = true,
@@ -89,6 +91,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
             minWidth,
             maxWidth,
             maxHeight,
+            fitViewport,
             trackLayoutShift,
         });
 
@@ -206,6 +209,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
                         data-exiting={exiting ? true : undefined}
                         data-context={contextOpen || undefined}
                         data-arrow={showArrow || undefined}
+                        data-scrollbar={scrollbar}
                         className={cn("ps-popover__content", className)}
                         style={contentStyle}
                         onPointerEnter={(

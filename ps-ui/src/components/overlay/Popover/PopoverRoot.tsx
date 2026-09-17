@@ -211,13 +211,11 @@ export function PopoverRoot({
             }
 
             const target = event.target as Node | null;
-            if (
-                !contains(triggerRef.current, target) &&
-                !contains(contentRef.current, target)
-            ) {
-                return;
+            if (contains(contentRef.current, target)) return;
+            for (const layer of descendantLayers.current) {
+                if (contains(layer, target)) return;
             }
-            if (contains(triggerRef.current, target)) return;
+            if (!contains(triggerRef.current, target)) return;
 
             event.preventDefault();
             openAtPoint({ x: event.clientX, y: event.clientY });

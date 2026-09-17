@@ -2,6 +2,11 @@ import { createContext, useContext } from "react";
 import type { TriggerType } from "../../../types";
 import type { MutableRefObject } from "react";
 
+export interface SubMenuChildRegistration {
+    id: string;
+    closeStack: () => number;
+}
+
 export interface SubMenuContextValue {
     id: string;
     open: boolean;
@@ -19,9 +24,11 @@ export interface SubMenuContextValue {
     contentRef: MutableRefObject<HTMLElement | null>;
     focusOnOpenRef: MutableRefObject<boolean>;
     requestHoverOpen: () => void;
+    closeStack: () => number;
     scheduleClose: () => void;
     cancelClose: () => void;
     cancelCloseTree: () => void;
+    registerChildSubMenu: (submenu: SubMenuChildRegistration) => () => void;
 }
 
 export const SubMenuContext = createContext<SubMenuContextValue | null>(null);

@@ -1,8 +1,8 @@
 "use client";
 
+import { computePosition, getBoundaryRect } from "../../../utils/positioning";
 import { type PositionPlacement, type PositionSide } from "../../../types";
 import type { PopoverContextValue } from "./Popover.context";
-import { computePosition } from "../../../utils/positioning";
 import { useRafCallback } from "../../../hooks";
 import {
     createVirtualAnchor,
@@ -37,6 +37,7 @@ interface UsePopoverContentPositionOptions {
     minWidth?: number | string;
     maxWidth?: number | string;
     maxHeight?: number | string;
+    fitViewport: boolean;
     trackLayoutShift: boolean;
 }
 
@@ -44,11 +45,47 @@ function initialSide(placement: PositionPlacement) {
     return (String(placement).split(/[ -]/)[0] as PositionSide) || "bottom";
 }
 
+function cappedCssSize(
+    value: number | string | undefined,
+    cap: number | undefined,
+) {
+    const resolved = cssSize(value);
+    if (cap === undefined) return resolved;
+    const capSize = px(cap);
+    if (!resolved || resolved === "none") return capSize;
+    if (typeof value === "number") return px(Math.min(value, cap));
+    return `min(${resolved}, ${capSize})`;
+}
+
+function measuredHeight(node: HTMLElement) {
+    const rect = node.getBoundingClientRect();
+    return Math.max(1, node.offsetHeight || rect.height);
+}
+
+function boundaryHeight(root: HTMLElement | null, padding: number) {
+    const rect = getBoundaryRect(root);
+    return Math.max(1, rect.height - padding * 2);
+}
+
+function heightCapForSide(
+    side: PositionSide,
+    height: number,
+    sideCap: number,
+    rootCap: number,
+) {
+    const cap = side === "left" || side === "right" ? rootCap : sideCap;
+    return height > cap + 0.5 ? cap : undefined;
+}
+
 function isScrollable(node: HTMLElement) {
     const style = getComputedStyle(node);
     return /(auto|scroll|overlay)/.test(
         `${style.overflow}${style.overflowX}${style.overflowY}`,
     );
+}
+
+function containsNode(root: HTMLElement | null, target: EventTarget | null) {
+    return root !== null && target instanceof Node && root.contains(target);
 }
 
 function scrollParents(node: HTMLElement | null) {
@@ -86,6 +123,7 @@ export function usePopoverContentPosition({
     minWidth,
     maxWidth,
     maxHeight,
+    fitViewport,
     trackLayoutShift,
 }: UsePopoverContentPositionOptions) {
     const [side, setSide] = useState<PositionSide>(() =>
@@ -116,6 +154,8 @@ export function usePopoverContentPosition({
             maxWidth: node.style.maxWidth,
             maxHeight: node.style.maxHeight,
         };
+        const scrollTop = node.scrollTop;
+        const scrollLeft = node.scrollLeft;
 
         node.style.display = "block";
         node.style.visibility = "hidden";
@@ -135,6 +175,9 @@ export function usePopoverContentPosition({
         node.style.maxHeight =
             maxHeight !== undefined ? (cssSize(maxHeight) ?? "") : "";
 
+        const boundary = resolveElement(popover.positioningRoot);
+        const height = measuredHeight(node);
+        const rootMaxHeight = boundaryHeight(boundary, containerPadding);
         const next = computePosition(anchor, node, {
             placement,
             gap,
@@ -145,10 +188,12 @@ export function usePopoverContentPosition({
             shouldFlip,
             fallbackSides,
             containerPadding,
-            boundary: resolveElement(popover.positioningRoot),
+            boundary,
         });
 
         Object.assign(node.style, previous);
+        node.scrollTop = scrollTop;
+        node.scrollLeft = scrollLeft;
 
         const top = px(next.top);
         const left = px(next.left);
@@ -157,7 +202,17 @@ export function usePopoverContentPosition({
             matchTriggerWidth ? resolvedWidth : minWidth,
         );
         const nextMaxWidth = cssSize(maxWidth);
-        const nextMaxHeight = cssSize(maxHeight);
+        const nextMaxHeight = fitViewport
+            ? cappedCssSize(
+                  maxHeight,
+                  heightCapForSide(
+                      next.side,
+                      height,
+                      next.maxHeight,
+                      rootMaxHeight,
+                  ),
+              )
+            : cssSize(maxHeight);
         const origin = `${next.originX} ${next.originY}`;
         const resolvedArrowSize = `${arrowSize}px`;
         const resolvedArrowGap = `${arrowGap}px`;
@@ -208,6 +263,7 @@ export function usePopoverContentPosition({
         containerPadding,
         crossOffset,
         fallbackSides,
+        fitViewport,
         gap,
         localRef,
         matchTriggerWidth,
@@ -239,10 +295,18 @@ export function usePopoverContentPosition({
             };
         }
 
-        const scheduleUpdate = () => schedule();
+        const scheduleUpdate = (event?: Event) => {
+            if (
+                event?.type === "scroll" &&
+                containsNode(localRef.current, event.target)
+            ) {
+                return;
+            }
+            schedule();
+        };
         const observer =
             typeof ResizeObserver !== "undefined"
-                ? new ResizeObserver(scheduleUpdate)
+                ? new ResizeObserver(() => scheduleUpdate())
                 : null;
         const boundary = resolveElement(popover.positioningRoot);
         const scrollTargets = new Set<EventTarget>([
